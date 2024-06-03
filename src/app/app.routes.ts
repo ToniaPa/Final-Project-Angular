@@ -1,27 +1,27 @@
 import { Routes } from '@angular/router';
 import { IntroComponent } from './components/intro/intro.component';
-import { WorkersComponent } from './components/workers/workers.component';
-import { ClientsComponent } from './components/clients/clients.component';
-import { WorkTypesComponent } from './components/work-types/work-types.component';
-import { TimeSheetComponent } from './components/time-sheet/time-sheet.component';
+import { WorkersDashboardComponent } from './components/workers/workers-dashboard/workers-dashboard.component';
+import { ClientsDashboardComponent } from './components/clients/clients-dashboard/clients-dashboard.component';
+import { WorkTypesDashboardComponent } from './components/work-types/work-types-dashboard/work-types-dashboard.component';
+import { TimeSheetsDashboardComponent } from './components/time-sheets/time-sheets-dashboard/time-sheets-dashboard.component';
 
 
 export const routes: Routes = [
   { path: '', component: IntroComponent },
   {
     path: 'workers',
-    component: WorkersComponent,
+    component: WorkersDashboardComponent,
   },
   {
     path: 'clients',
-    component: ClientsComponent,
+    component: ClientsDashboardComponent,
   },
   {
     path: 'work-types',
-    component: WorkTypesComponent,
+    component: WorkTypesDashboardComponent,
   },
   {
     path: 'time-sheet',
-    component: TimeSheetComponent,
+    component: TimeSheetsDashboardComponent,
   },
 ];
