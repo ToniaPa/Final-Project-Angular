@@ -16,7 +16,7 @@ export class MenuItemsComponent {
   menu: MenuItem[] = [
     {
       text: 'Registrations',
-      routerLink: 'registration-of-data',
+      routerLink: 'registrations-of-data',
     },
     // {
     //   text: 'Simple Datatable Example',

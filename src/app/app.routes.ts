@@ -1,11 +1,18 @@
 import { Routes } from '@angular/router';
 import { IntroComponent } from './components/intro/intro.component';
-import { RegistrationOfDataComponent } from './components/registration-of-data/registration-of-data.component';
+
 
 export const routes: Routes = [
-  { path: '', component: IntroComponent },
+  { path: '', 
+    component: IntroComponent 
+  },
   { 
-    path: 'registration-of-data',
-    component: RegistrationOfDataComponent
+    // path: 'registrations-of-data',
+    // component: RegistrationsOfDataComponent
+  },
+  {
+    // path: 'registrations-of-data/worker-create',
+    // component: WorkerCreateComponent,
+    // canActivate: [authGuard], //πρώτα κάνουμε login και μετά μπαίνουμε στην CRUD οθόνη (αυτή είναι η λογική της εφαρμογής)
   },
 ];

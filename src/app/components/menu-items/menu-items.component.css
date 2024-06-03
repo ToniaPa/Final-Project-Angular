@@ -1,0 +1,7 @@
+.active{ 
+  /* background-color: black; doesn't work with bg-.. bootstrap class*/
+  color: black;
+  font-weight: 500;
+  border: none;    
+  text-emphasis: true;
+}
