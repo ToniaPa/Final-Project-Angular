@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+
 import {MatIconModule} from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar-on-top',
   standalone: true,
   imports: [
+    RouterLink,
     MatIconModule, 
-    RouterLink
   ],
   templateUrl: './navbar-on-top.component.html',
   styleUrl: './navbar-on-top.component.css'

@@ -13,18 +13,22 @@ import { MenuItem } from 'src/app/shared/interfaces/menu-item';
   styleUrl: './menu-items.component.css'
 })
 export class MenuItemsComponent {
-  menu: MenuItem[] = [
+  menu: MenuItem[] = [    
     {
-      text: 'Registrations',
-      routerLink: 'registrations-of-data',
+      text: 'Workers',
+      routerLink: 'workers',
     },
-    // {
-    //   text: 'Simple Datatable Example',
-    //   routerLink: 'simple-datatable-example',
-    // },
-    // {
-    //   text: 'Component Output Example',
-    //   routerLink: 'component-output-example',
-    // },
+    {
+      text: 'Clients',
+      routerLink: 'clients',
+    },
+    {
+      text: 'Work Types',
+      routerLink: 'work-types',
+    },
+    {
+      text: 'Time Sheet',
+      routerLink: 'time-sheet',
+    },
   ];
 }

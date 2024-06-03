@@ -1,5 +1,5 @@
 .active{ 
-  /* background-color: black; doesn't work with bg-.. bootstrap class*/
+  background-color: lightsteelblue;
   color: black;
   font-weight: 500;
   border: none;    
