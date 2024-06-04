@@ -44,22 +44,7 @@ export class UserService {
         console.log('No user Logged In')
       }
     })
-  }
-  
-  //*** User Registration: ***//  
-  registerUser(user: User) {
-    console.log('user.service.ts (registerUser) στοιχεία του user (step 1): ', user)
-    console.log(`'user.service.ts (registerUser) url (step 1): ${API_URL}/register`);
-    //πηγαίνει στο user_blueprint.py:
-    return this.http.post<{ msg: string }>(`${API_URL}/register`, user); //κάνουμε return για να πάρουμε το response, την απάντηση από τον server
-  }
-
-  check_duplicate_email(email: string) {
-    console.log(`check_duplicate_email url: ${API_URL}/check_duplicate_email/${email}`);
-    return this.http.get<{ msg: string }>(      
-      `${API_URL}/check_duplicate_email/${email}`,
-    );
-  }
+  } //end of constructor 
 
   loginUser(credentials: Credentials) {  
     console.log(`loginUser url: ${API_URL}/login, from user.services.ts`);    
@@ -73,8 +58,23 @@ export class UserService {
   logoutUser() {
     this.user.set(null); // κάνουμε Null το signal 
     localStorage.removeItem('access_token'); 
-    this.router.navigate(['login']); 
+    this.router.navigate(['user-login']); 
   }
+
+    //*** User Registration: ***//  
+    registerUser(user: User) {
+      console.log('user.service.ts (registerUser) στοιχεία του user (step 1): ', user)
+      console.log(`'user.service.ts (registerUser) url (step 1): ${API_URL}/register`);
+      //πηγαίνει στο user_blueprint.py:
+      return this.http.post<{ msg: string }>(`${API_URL}/register`, user); //κάνουμε return για να πάρουμε το response, την απάντηση από τον server
+    }
+  
+    check_duplicate_email(email: string) {
+      console.log(`check_duplicate_email url: ${API_URL}/check_duplicate_email/${email}`);
+      return this.http.get<{ msg: string }>(      
+        `${API_URL}/check_duplicate_email/${email}`,
+      );
+    }
 }
 
 

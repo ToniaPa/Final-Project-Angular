@@ -15,10 +15,6 @@ import { MenuItem } from 'src/app/shared/interfaces/menu-item';
 export class MenuItemsComponent {
   menu: MenuItem[] = [    
     {
-      text: 'User Registration',
-      routerLink: 'user-registration',
-    },
-    {
       text: 'Workers',
       routerLink: 'workers',
     },

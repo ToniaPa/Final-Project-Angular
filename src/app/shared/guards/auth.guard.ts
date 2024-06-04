@@ -12,5 +12,5 @@ if (userService.user()) { //= getter του signal
   return true; //= επιτρέπει την πρόσβαση
 }
 
-return router.navigate(['login']); //= δεν επιτρέπει την πρόσβαση -> redirect στο 'login' το οποίο στο app.routes.ts είναι:  path: 'login'
+return router.navigate(['user-login']); //= δεν επιτρέπει την πρόσβαση -> redirect στο Login το οποίο στο app.routes.ts είναι:  path: 'user-login'
 };
