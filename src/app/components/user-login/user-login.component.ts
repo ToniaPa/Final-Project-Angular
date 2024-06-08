@@ -5,11 +5,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Credentials, LoggedInUser } from 'src/app/shared/interfaces/mongo-backend';
 import { UserService } from 'src/app/shared/services/user.service';
-// import { UserService } from 'src/app/shared/services/user.service';
 
 
 @Component({
@@ -18,11 +19,21 @@ import { UserService } from 'src/app/shared/services/user.service';
   imports: [
     ReactiveFormsModule, 
     RouterLink,
+    MatIconModule,
+    MatFormFieldModule,
   ],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.css',
 })
 export class UserLoginComponent {
+
+   //
+   hidePassword = true;
+ 
+   clickPassword(event: MouseEvent) {
+     this.hidePassword = !this.hidePassword;
+     event.stopPropagation();
+   }
 
   userService = inject(UserService); 
   //=  dependency injection του user.service.ts στον φάκελο services, εμείς το έχουμε φτιάξει, στην πλευρά του user.service.ts κάνουμε @Injectable(...) => δηλώνουμε την σχέση του dependency injection ΚΑΙ ΣΤΙΣ ΔΥΟ ΠΛΕΥΡΕΣ      

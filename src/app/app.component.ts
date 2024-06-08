@@ -3,6 +3,7 @@ import { NavbarOnTopComponent } from './components/navbar-on-top/navbar-on-top.c
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MenuItemsComponent } from './components/menu-items/menu-items.component';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,

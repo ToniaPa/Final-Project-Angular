@@ -20,10 +20,39 @@ export interface LoggedInUser { //εδώ κρατάω την πληροφορί�
   //συγκεκριμένα το @user.route("/login", methods=["POST"])
   //εκεί βλέπω τι μου επιστρέφει το backend στο Login του user
 }
-
 //*** end of User ***//
 
 
+export interface Address {
+  street: string;
+  number: string;
+  city: string;
+  country: string;
+  zipCode: string;
+}
 
-//*** Customer ***//
-//*** end of Customer ***//
+export interface PhoneNumber{
+  number: string;
+  type: string;
+}
+
+//*** Worker ***//
+export interface Worker {
+  givenName: string;
+  surName: string;
+  email: string;
+  afm: string;
+  phoneNumbers: PhoneNumber[]
+  address: Address 
+ }
+//*** end of Worker ***//
+
+//*** Client ***//
+export interface Client {
+  brandName: string;    
+  email: string;
+  afm: string;
+  phoneNumbers: PhoneNumber[]
+  address: Address 
+ }
+//*** end of Client ***//

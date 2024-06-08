@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { User } from 'src/app/shared/interfaces/mongo-backend';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -19,11 +20,26 @@ import { UserService } from 'src/app/shared/services/user.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './user-registration.component.html',
   styleUrl: './user-registration.component.css'
 })
 export class UserRegistrationComponent {
+  
+  //
+  hidePass = true;
+  hideConfPass = true;
+
+  clickPassword(event: MouseEvent) {
+    this.hidePass = !this.hidePass;
+    event.stopPropagation();
+  }
+  clickConfPassword(event: MouseEvent) {
+    this.hideConfPass = !this.hideConfPass;
+    event.stopPropagation();
+  }
+  //
 
   userService = inject(UserService); //= user.service.ts στον φάκελο services, εμείς το έχουμε φτιάξει
 
