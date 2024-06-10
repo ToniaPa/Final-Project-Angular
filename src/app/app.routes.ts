@@ -7,6 +7,7 @@ import { TimeSheetsDashboardComponent } from './components/time-sheets/time-shee
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { WorkerCreateComponent } from './components/workers/worker-create/worker-create.component';
+import { WorkersOutputTableComponent } from './components/workers/workers-output-table/workers-output-table.component';
 
 
 export const routes: Routes = [
@@ -43,6 +44,11 @@ export const routes: Routes = [
   {
     path: 'workers-dashboard/create',
     component: WorkerCreateComponent,
+    // canActivate: [authGuard], 
+  },
+  {
+    path: 'workers-dashboard/show-all-workers',
+    component: WorkersOutputTableComponent,
     // canActivate: [authGuard], 
   },
   // {

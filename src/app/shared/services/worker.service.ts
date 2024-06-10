@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment.development';
 import { Worker } from '../interfaces/mongo-backend';
 
 
-const API_URL = `${environment.apiURL}/worker`;
+const API_URL = `${environment.apiURL}/workers`;
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,10 @@ export class WorkerService {
 
   createWorker(worker: Worker) {
     return this.http.post<{ msg: string }>(`${API_URL}/create`, worker);
+  }
+
+  getAllWorkers() {
+    return this.http.get<Worker[]>(`${API_URL}/`);
   }
  
 }

@@ -75,6 +75,17 @@ export class WorkerCreateComponent {
     this.phoneNumbers.removeAt(index);
   }
 
+//   <div class="d-flex gap-2">
+//   <button                   
+//     (click)="submit(form.value)"
+//     [disabled]="form.invalid"
+//   >
+//     Submit
+//   </button>
+//   <button mat-button style ="color: gray; font-style: italic;" (click)="form.reset()">
+//     Reset
+//   </button>
+// </div>
   // στο submit μιλάμε με το service
   submit(value: any) {
     console.log(this.form.value);
@@ -96,12 +107,12 @@ export class WorkerCreateComponent {
   }
 
 
-  registerAnotherWorker() {   
+  addAnotherWorker() {   
     this.form.reset(); 
     this.registrationStatus = { success: false, message: 'Not attempted yet' };
   }
 
-  registerAgainWorker() {       
+  addAgainWorker() {       
     this.registrationStatus = { success: false, message: 'Not attempted yet' };
   }
 }

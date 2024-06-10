@@ -1,0 +1,36 @@
+@if(!worker) {  
+  <div class="alert alert-danger text-center">
+    There aren't any details 
+  </div>
+} @else {
+  <table class="table table-bordered">
+    <caption class="caption-top fw-bold bg-primary text-light text-center">
+      Worker Details
+    </caption>
+    <tr>
+      <td class="fw-semibold text-end">First Name</td>
+      <td class="ps-2">{{ worker.givenName }}</td>
+    </tr>
+    <tr>
+      <td class="fw-semibold text-end">Last Name</td>
+      <td class="ps-2">{{ worker.surName }}</td>
+    </tr>
+    <tr>
+      <td class="fw-semibold text-end">Age</td>
+      <td class="ps-2">{{ worker.email }}</td>
+    </tr>
+    <tr>
+      <td class="fw-semibold text-end">Email</td>
+      <td class="ps-2">{{ worker.afm }}</td>
+    </tr>    
+    <!-- <tr>
+      <td class="fw-semibold text-end">Education</td>
+      <td class="ps-2">{{ worker["phoneNumbers"] }}</td>
+    </tr> -->
+    <tr>
+        <td class="fw-semibold text-end">Address</td>
+        <td class="ps-2">{{ worker["address"] }}</td>
+    </tr>        
+  </table>
+}
+
