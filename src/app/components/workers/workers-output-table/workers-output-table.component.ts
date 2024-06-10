@@ -94,8 +94,7 @@ export class WorkersOutputTableComponent implements OnInit {
   imports: [WorkerOutputDetailsComponent],
   standalone: true,
   template: `
-  <app-worker-output-details [worker]="worker"></app-worker-output-details>
-    <!-- <app-person-table [person]="person"></app-person-table> -->
+  <app-worker-output-details [worker]="worker"></app-worker-output-details>    
     <button class="btn btn-primary btn-sm" (click)="dialogRef.close()">
       Close
     </button>
