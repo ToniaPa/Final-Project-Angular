@@ -4,7 +4,7 @@
   </div>
 } @else {
   <table class="table table-bordered">
-    <caption class="caption-top fw-bold bg-primary text-light text-center">
+    <caption class="caption-top fw-bold bg-dark-subtle text-success text-center">
       Worker Details
     </caption>
     <tr>
@@ -16,20 +16,25 @@
       <td class="ps-2">{{ worker.surName }}</td>
     </tr>
     <tr>
-      <td class="fw-semibold text-end">Age</td>
+      <td class="fw-semibold text-end">Email</td>
       <td class="ps-2">{{ worker.email }}</td>
     </tr>
     <tr>
-      <td class="fw-semibold text-end">Email</td>
+      <td class="fw-semibold text-end">Afm</td>
       <td class="ps-2">{{ worker.afm }}</td>
     </tr>    
-    <!-- <tr>
-      <td class="fw-semibold text-end">Education</td>
-      <td class="ps-2">{{ worker["phoneNumbers"] }}</td>
-    </tr> -->
     <tr>
-        <td class="fw-semibold text-end">Address</td>
-        <td class="ps-2">{{ worker["address"] }}</td>
+      <td class="fw-semibold text-end">Phone Numbers</td>
+      @for (entry of worker.phoneNumbers;  track entry) {     
+        <td class="ps-2">{{ entry.number }}<small>({{ entry.type }})</small></td>          
+      }    
+    </tr> 
+    <tr>
+        <td class="fw-semibold text-end align-content-start">Address</td>
+        <td class="ps-2"> 
+          {{ worker.address.street }} {{ worker.address.number }} <br> 
+          {{ worker.address.city }} {{ worker.address.country }} {{ worker.address.zipCode }} 
+        </td>
     </tr>        
   </table>
 }

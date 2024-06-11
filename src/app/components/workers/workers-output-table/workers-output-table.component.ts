@@ -5,12 +5,20 @@ import { sortBy } from 'lodash';
 //από το https://material.angular.io/cdk/dialog/overview:
 import {Dialog, DialogRef, DIALOG_DATA, DialogModule} from '@angular/cdk/dialog';
 import { WorkerOutputDetailsComponent } from '../worker-output-details/worker-output-details.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-workers-output-table',
   standalone: true,
   imports: [
     DialogModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
   ],
   templateUrl: './workers-output-table.component.html',
   styleUrl: './workers-output-table.component.css'
@@ -79,12 +87,32 @@ export class WorkersOutputTableComponent implements OnInit {
   //από το https://material.angular.io/cdk/dialog/overview
   constructor(public dialog: Dialog) {};
 
-  onWorkerClicked(worker: Worker) { //@Output, dbclick
-    console.log("dblclicked: ", worker)
-    // this.workerClicked.emit(worker); //Emits (εκπέμπω) an event containing a given value. param = the value to emit.
+  onWorkerDetailsClicked(worker: Worker) { 
+    console.log("dblclicked/clicked for details: ", worker)
+    // this.workerClicked.emit(worker); 
     //από το https://material.angular.io/components/dialog/overview
     this.dialog.open(WorkerDialogComponent, {     
       data: worker,
+    });
+  }
+
+  onWorkerDeleteClicked(worker: Worker) { 
+    console.log("onWorkerDeleteClicked() from workers-output-table.ts: ", worker)
+    let afm: string = ''
+    afm = worker.afm
+    // afm = worker.afm
+    console.log("onWorkerDeleteClicked() from workers-output-table.ts, AFM: ", afm)
+    // this.workerService.deleteWorker(worker.afm).subscribe({
+      this.workerService.deleteWorker(afm).subscribe({
+      next: (response) => {        
+        console.log(`Worker: ${worker.givenName} ${worker.surName}, with Afm: ${worker.afm} was deleted successfully`);  
+        console.log(response);
+        this.get_all_workers();
+      },
+      error: (response) => {
+        const message = response.error.msg;
+        console.error(`There was an error in deleting Worker ${worker.givenName} ${worker.surName} with Afm ${worker.afm}`, message);       
+      }
     });
   }
 }
@@ -95,7 +123,7 @@ export class WorkersOutputTableComponent implements OnInit {
   standalone: true,
   template: `
   <app-worker-output-details [worker]="worker"></app-worker-output-details>    
-    <button class="btn btn-primary btn-sm" (click)="dialogRef.close()">
+    <button class="btn btn-light btn-sm" (click)="dialogRef.close()">
       Close
     </button>
   `,
