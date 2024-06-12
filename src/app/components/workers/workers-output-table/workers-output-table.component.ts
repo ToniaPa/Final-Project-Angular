@@ -9,6 +9,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmYesnoDialogComponent } from '../../confirm-yesno-dialog/confirm-yesno-dialog.component';
 
 @Component({
   selector: 'app-workers-output-table',
@@ -25,7 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class WorkersOutputTableComponent implements OnInit {
 
-  // @Output() workerClicked = new EventEmitter<Worker>();
+  // @Output() workerClicked = new EventEmitter<Worker>(); 
 
   workerService = inject(WorkerService);
 
@@ -46,57 +48,8 @@ export class WorkersOutputTableComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {    
-    this.get_all_workers();
-  }
-
-  //Sorting
-  sortOrder = {
-    givenName: 'none',
-    surName: 'none',    
-    email: 'none',
-    afm: 'none',
-  };
-
-  sortData(sortKey: string) { //εναλλαγή μεταξύ asc και desc:
-    if (this.sortOrder[sortKey] === 'asc') { // το sortOrder είναι object
-      this.sortOrder[sortKey] = 'desc';
-      this.workers = sortBy(this.workers, sortKey).reverse(); //sortBy είναι μέθοδος της lodash, η reverse είναι μεθοδος της typescript      
-    } else {
-      this.sortOrder[sortKey] = 'asc';
-      this.workers = sortBy(this.workers, sortKey); //sortBy είναι μέθοδος της lodash
-    }
-
-    for (let key in this.sortOrder) {
-      if (key !== sortKey) {
-        this.sortOrder[key] = 'none'; //= init all other fields, except the one for sorting
-      }
-    }
-  }
-
-  sortSign(sortKey: string) {
-    if (this.sortOrder[sortKey] === 'asc') {
-      return '↑';
-    } else if (this.sortOrder[sortKey] === 'desc') {
-      return '↓';
-    } else {
-      return '';
-    }
-  }
-
-  //από το https://material.angular.io/cdk/dialog/overview
-  constructor(public dialog: Dialog) {};
-
-  onWorkerDetailsClicked(worker: Worker) { 
-    console.log("dblclicked/clicked for details: ", worker)
-    // this.workerClicked.emit(worker); 
-    //από το https://material.angular.io/components/dialog/overview
-    this.dialog.open(WorkerDialogComponent, {     
-      data: worker,
-    });
-  }
-
-  onWorkerDeleteClicked(worker: Worker) { 
+  // ***
+  delete_worker(worker: Worker) {
     console.log("onWorkerDeleteClicked() from workers-output-table.ts: ", worker)
     let afm: string = ''
     afm = worker.afm
@@ -115,7 +68,82 @@ export class WorkersOutputTableComponent implements OnInit {
       }
     });
   }
-}
+
+  //Sorting
+  sortOrder = {
+    givenName: 'none',
+    surName: 'none',    
+    email: 'none',
+    afm: 'none',
+  };
+
+  sortData(sortKey: string) { //εναλλαγή μεταξύ asc και desc:
+    if (this.sortOrder[sortKey] === 'asc') { // το sortOrder είναι object
+      this.sortOrder[sortKey] = 'desc';
+      this.workers = sortBy(this.workers, sortKey).reverse(); //sortBy είναι μέθοδος της lodash, η reverse είναι μεθοδος της typescript      
+    } else {
+      this.sortOrder[sortKey] = 'asc';
+      this.workers = sortBy(this.workers, sortKey); //sortBy είναι μέθοδος της lodash
+    };
+
+    for (let key in this.sortOrder) {
+      if (key !== sortKey) {
+        this.sortOrder[key] = 'none'; //= init all other fields, except the one for sorting
+      }
+    };
+  };
+
+  sortSign(sortKey: string) {
+    if (this.sortOrder[sortKey] === 'asc') {
+      return '↑';
+    } else if (this.sortOrder[sortKey] === 'desc') {
+      return '↓';
+    } else {
+      return '';
+    };
+  };
+
+  //από το https://material.angular.io/cdk/dialog/overview
+  constructor(
+    public dialog: Dialog,
+    public matDialog: MatDialog,
+  ) {};
+
+  onWorkerDetailsClicked(worker: Worker) { 
+    console.log("dblclicked/clicked for details: ", worker)
+    // this.workerClicked.emit(worker); 
+    //από το https://material.angular.io/components/dialog/overview
+    this.dialog.open(WorkerDialogComponent, {     
+      data: worker,
+    });
+  };
+
+  // Events //
+
+  ngOnInit(): void {    
+    this.get_all_workers();
+  }
+
+  onWorkerDeleteClicked(worker: Worker) { 
+    const dialogRef = this.matDialog.open(ConfirmYesnoDialogComponent, {
+      width: '300px',
+      data: { message: `Are you sure you want to delete worker: ${worker.givenName} ${worker.surName}?`}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Perform the deletion action
+        this.delete_worker(worker);
+        console.log('Yes clicked');
+      } else {
+        // Cancel the deletion action
+        console.log('No clicked');
+      }
+    });       
+  };
+};
+// end of class WorkersOutputTableComponent
+  
 
 //χειρoκίνητο component, το φτιάχνουμε εμείς
 @Component({
@@ -123,7 +151,7 @@ export class WorkersOutputTableComponent implements OnInit {
   standalone: true,
   template: `
   <app-worker-output-details [worker]="worker"></app-worker-output-details>    
-    <button class="btn btn-light btn-sm" (click)="dialogRef.close()">
+    <button class="btn btn-light btn-sm bg-dark-subtle" (click)="dialogRef.close()">
       Close
     </button>
   `,
