@@ -11,6 +11,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmYesnoDialogComponent } from '../../confirm-yesno-dialog/confirm-yesno-dialog.component';
+import { emitDistinctChangesOnlyDefaultValue } from '@angular/compiler';
+import { RouterLink } from '@angular/router';
+import { SharedataService } from 'src/app/shared/data/sharedata.service';
+import { Subscription } from 'rxjs';
+import { WorkerUpdateComponent } from '../worker-update/worker-update.component';
 
 @Component({
   selector: 'app-workers-output-table',
@@ -21,17 +26,24 @@ import { ConfirmYesnoDialogComponent } from '../../confirm-yesno-dialog/confirm-
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    RouterLink,   
+    WorkerUpdateComponent,
   ],
   templateUrl: './workers-output-table.component.html',
   styleUrl: './workers-output-table.component.css'
 })
 export class WorkersOutputTableComponent implements OnInit {
 
-  // @Output() workerClicked = new EventEmitter<Worker>(); 
+  constructor(
+    public dialog: Dialog,
+    public matDialog: MatDialog,    
+  ) {};
 
   workerService = inject(WorkerService);
 
   workers: Worker[];
+
+  // @Output() workerEditClicked = new EventEmitter<Worker>();
 
   get_all_workers() {
     this.workerService.getAllWorkers().subscribe({
@@ -48,7 +60,7 @@ export class WorkersOutputTableComponent implements OnInit {
     });
   }
 
-  // ***
+ 
   delete_worker(worker: Worker) {
     console.log("onWorkerDeleteClicked() from workers-output-table.ts: ", worker)
     let afm: string = ''
@@ -103,28 +115,37 @@ export class WorkersOutputTableComponent implements OnInit {
     };
   };
 
-  //από το https://material.angular.io/cdk/dialog/overview
-  constructor(
-    public dialog: Dialog,
-    public matDialog: MatDialog,
-  ) {};
-
-  onWorkerDetailsClicked(worker: Worker) { 
-    console.log("dblclicked/clicked for details: ", worker)
-    // this.workerClicked.emit(worker); 
-    //από το https://material.angular.io/components/dialog/overview
-    this.dialog.open(WorkerDialogComponent, {     
-      data: worker,
-    });
-  };
-
-  // Events //
-
+  //
+  //** Events **//
+  //
   ngOnInit(): void {    
     this.get_all_workers();
   }
 
+  onWorkerDetailsClicked(worker: Worker) { 
+    console.log("dblclicked/clicked for details: ", worker)
+    // this.workerClicked.emit(worker); 
+   
+    this.dialog.open(WorkerDialogComponent, {     
+      data: worker,
+    });
+  };
+ 
+  sharedataService = inject(SharedataService);
+  
+
+  onWorkerEditClicked(worker: Worker) { 
+
+    // όχι με emitter, δεν είναι parent-child
+
+    console.log("clicked for edit: ", worker)   
+
+    this.sharedataService.sendWorker(worker); // μέσω του SharedataService
+  };
+
   onWorkerDeleteClicked(worker: Worker) { 
+    console.log("clicked for delete: ", worker)
+
     const dialogRef = this.matDialog.open(ConfirmYesnoDialogComponent, {
       width: '300px',
       data: { message: `Are you sure you want to delete worker: ${worker.givenName} ${worker.surName}?`}

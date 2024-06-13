@@ -102,8 +102,7 @@ export class WorkerCreateComponent {
         console.error('There was an error in adding a Worker!', message);
         this.registrationStatus = { success: false, message }; 
       }
-    })   
-    
+    })       
   }
 
 

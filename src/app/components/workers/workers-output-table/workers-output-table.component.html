@@ -1,54 +1,59 @@
-<table class="table table-bordered text-wrap overflow-hidden">
-  <title>Workers:</title>
-  <thead>
-    <tr class="align-middle text-center small">
-      <th role="button" (click)="sortData('givenName')">First Name {{ sortSign("givenName") }}</th>
-      <th role="button" (click)="sortData('surName')">Last Name {{ sortSign("surName") }}</th>  
-      <th role="button" (click)="sortData('email')"class="d-none d-lg-table-cell">Email {{ sortSign("email") }}</th>
-      <th role="button" (click)="sortData('afm')">Afm {{ sortSign("afm") }}</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (row of workers; track row) {   
-      <tr class="align-middle" (dblclick)="onWorkerDetailsClicked(row)">
-        <td>{{ row.givenName }}</td>
-        <td>{{ row.surName }}</td>
-        <td>{{ row.email }}</td>
-        <td class="d-none d-lg-table-cell">{{ row.afm }}</td>    
-        <td>          
-          <button    
-            matTooltip="Show Worker's Details"
-            mat-icon-button 
-            aria-label="Show Details"             
-            (click)="onWorkerDetailsClicked(row)"
-          >
-            <mat-icon matTooltip="Show Worker's Details">description</mat-icon> 
-          </button>
-        </td> 
-        <!-- <td>          
-          <button    
-            matTooltip="Edit Worker's Details"
-            mat-icon-button 
-            aria-label="Edit Details"             
-            (click)="onWorkerDetailsClicked(row)"
-          >
-            <mat-icon matTooltip="Edit Worker's Details">edit</mat-icon> 
-          </button>
-        </td>  -->
-        <td>          
-          <button    
-            matTooltip="Delete Worker"
-            mat-icon-button 
-            aria-label="Delete Worker"             
-            (click)="onWorkerDeleteClicked(row)"
-          >
-            <mat-icon matTooltip="Delete Worker">delete</mat-icon> 
-          </button>
-        </td> 
-      </tr>
-    }
-  </tbody>
-</table>
+
+<div class="table-responsive mt-1">  
+  <table class="table table-hover table-bordered border-white text-wrap">
+      <!-- <title>Workers:</title> -->
+      <thead>
+        <tr class="align-middle text-left">
+          <th role="button" (click)="sortData('givenName')">First Name {{ sortSign("givenName") }}</th>
+          <th role="button" (click)="sortData('surName')">Last Name {{ sortSign("surName") }}</th>  
+          <th role="button" class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell" (click)="sortData('email')" >Email {{ sortSign("email") }}</th>
+          <th role="button" class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell" (click)="sortData('afm')" >Afm {{ sortSign("afm") }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of workers; track row) {   
+          <tr class="align-middle" (dblclick)="onWorkerDetailsClicked(row)">
+            <td>{{ row.givenName }}</td>
+            <td>{{ row.surName }}</td>
+            <td class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell">{{ row.email }}</td>
+            <td class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell">{{ row.afm }}</td>    
+            <td>          
+              <button    
+                matTooltip="Worker's Details"
+                mat-icon-button 
+                aria-label="Show Details"             
+                (click)="onWorkerDetailsClicked(row)"
+              >
+                <mat-icon matTooltip="Worker's Details">description</mat-icon> 
+              </button>
+            </td> 
+            <td>          
+              <button    
+                matTooltip="Edit Worker"
+                mat-icon-button 
+                aria-label="Edit Worker"             
+                (click)="onWorkerEditClicked(row)"
+                routerLink="/workers-dashboard/update" 
+              >
+                <mat-icon matTooltip="Edit Worker">edit</mat-icon>                 
+              </button>
+            </td>  
+            <td>          
+              <button    
+                matTooltip="Delete Worker"
+                mat-icon-button 
+                aria-label="Delete Worker"             
+                (click)="onWorkerDeleteClicked(row)"
+              >
+                <mat-icon matTooltip="Delete Worker">delete</mat-icon> 
+              </button>
+            </td> 
+          </tr>
+        }
+      </tbody>
+  </table>
+</div>
+
 
 
 

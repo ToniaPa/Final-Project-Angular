@@ -8,6 +8,7 @@ import { UserLoginComponent } from './components/user-login/user-login.component
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { WorkerCreateComponent } from './components/workers/worker-create/worker-create.component';
 import { WorkersOutputTableComponent } from './components/workers/workers-output-table/workers-output-table.component';
+import { WorkerUpdateComponent } from './components/workers/worker-update/worker-update.component';
 
 
 export const routes: Routes = [
@@ -40,6 +41,11 @@ export const routes: Routes = [
     path: 'workers-dashboard',
     component: WorkersDashboardComponent,
     // canActivate: [authGuard],
+  },  
+  {
+    path: 'workers-dashboard/show-all-workers',
+    component: WorkersOutputTableComponent,
+    // canActivate: [authGuard], 
   },
   {
     path: 'workers-dashboard/create',
@@ -47,23 +53,9 @@ export const routes: Routes = [
     // canActivate: [authGuard], 
   },
   {
-    path: 'workers-dashboard/show-all-workers',
-    component: WorkersOutputTableComponent,
+    path: 'workers-dashboard/update',
+    component: WorkerUpdateComponent,
     // canActivate: [authGuard], 
   },
-  // {
-  //   path: 'workers-dashboard/read',
-  //   component: CrudReadExampleComponent,
-  //   // canActivate: [authGuard], 
-  // },
-  // {
-  //   path: 'workers-dashboard/update',
-  //   component: CrudUpdateExampleComponent,
-  //   // canActivate: [authGuard], 
-  // },
-  // {
-  //   path: 'workers-dashboard/delete',
-  //   component: CrudDeleteExampleComponent,
-  //   // canActivate: [authGuard], 
-  // },
+
 ];

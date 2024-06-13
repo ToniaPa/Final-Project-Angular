@@ -11,12 +11,18 @@
     </button>   -->
     <button    
         matTooltip="Add a Worker"
+        matTooltipPosition="right"
         mat-icon-button 
         aria-label="Create" 
-        routerLink="/workers-dashboard/create"
-      
+        routerLink="/workers-dashboard/create"      
         >
-       <mat-icon matTooltip="Add a Worker">add</mat-icon>
+       <mat-icon 
+        matTooltip="Add a Worker" 
+        matTooltipPosition="right"
+        >
+        add
+      </mat-icon>
+        <!-- Add a Worker -->
     </button>   
     <!-- <button mat-icon-button aria-label="Delete">
       <mat-icon>delete</mat-icon>
@@ -25,46 +31,3 @@
       <mat-icon>search</mat-icon>
     </button>-->
 </nav>
-
-<!--  
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-  <a
-      class="navbar-brand"
-      routerLink="/workers-dashboard">
-      Home
-    </a>
-
-    <div class="d-flex gap-2 navbar-nav navbar-row">
-      <a
-        class="nav-link"
-        routerLink="/workers-dashboard/create"
-        [routerLinkActive]="['active']">
-        Create a Worker
-      </a>
-
-       <a
-        class="nav-link"
-        routerLink="/workers-dashboard/read"
-        [routerLinkActive]="['active']">
-        Read
-      </a> 
-
-       <a
-        class="nav-link"
-        routerLink="/workers-dashboard/update"
-        [routerLinkActive]="['active']">
-        Update
-      </a> 
-
-       <a
-        class="nav-link"
-        routerLink="/workers-dashboard/delete"
-        [routerLinkActive]="['active']">
-        Delete
-      </a> 
-    </div>
-  </div>
-</nav> -->
-
- 
