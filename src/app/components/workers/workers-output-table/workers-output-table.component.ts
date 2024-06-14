@@ -59,7 +59,6 @@ export class WorkersOutputTableComponent implements OnInit {
       },
     });
   }
-
  
   delete_worker(worker: Worker) {
     console.log("onWorkerDeleteClicked() from workers-output-table.ts: ", worker)

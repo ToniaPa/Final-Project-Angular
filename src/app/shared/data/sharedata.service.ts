@@ -7,15 +7,20 @@ import { Worker } from 'src/app/shared/interfaces/mongo-backend';
 })
 export class SharedataService { 
 
+  workerData: Worker; //εδω βάζω τα data του worker
+  // workerId: string ="";
+
   //***worker***//
   private dataWorkerSubject = new Subject<Worker>();
   workerData$ = this.dataWorkerSubject.asObservable();
 
   sendWorker(workerData: Worker) {
     this.dataWorkerSubject.next(workerData);
+    // this.workerId = this.workerData.id;
   }
 
-  workerData: Worker; //εδω βάζω τα data του worker
+
+ 
 
   //end of worker-
 

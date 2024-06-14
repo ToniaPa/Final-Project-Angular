@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, inject, HostListener } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, inject, HostListener, Inject } from '@angular/core';
 import { Subscription, async } from 'rxjs';
 import { SharedataService } from 'src/app/shared/data/sharedata.service';
 import { Worker } from 'src/app/shared/interfaces/mongo-backend';
@@ -16,6 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { WorkerService } from 'src/app/shared/services/worker.service';
 import { timer } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-worker-update',
@@ -26,24 +29,27 @@ import { timer } from 'rxjs';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatIconModule,  
+    MatIconModule,    
+    MatSnackBarModule,
     ],
   templateUrl: './worker-update.component.html',
   styleUrl: './worker-update.component.css'
 })
 export class WorkerUpdateComponent implements OnInit, AfterViewInit{
 
+  router = inject(Router);
+  snackBar = inject(MatSnackBar)
  
   @HostListener('window:load', ['$event'])
   onPageLoad(event: Event) {
     console.log('loaded');
-    this.set_form_values();
+    this.initial_form_values();
   }
  
   sharedataService = inject(SharedataService);
   workerService = inject(WorkerService);
 
-  worker: any;
+  worker: any;  
 
   constructor(){
     console.log('constructor');
@@ -54,17 +60,17 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
       // (ΔΕΝ ΞΕΡΩ ΓΙΑΤΙ)
       this.sharedataService.workerData = workerData; //εδώ έχω τα data (είμαι μέσα στο .subscribe) => τα στέλνω στο SharedataService
     });   
-    this.worker = this.sharedataService.workerData //τα (ξανα)παίρνω πίσω ΑΠΟ ΤΟ SharedataService
-    // this.set_form_values();
+    this.worker = this.sharedataService.workerData //τα (ξανα)παίρνω πίσω ΑΠΟ ΤΟ SharedataService   
+    this.initial_form_values();
   }
   ngAfterViewInit(): void {
     console.log('ngAfterViewInit');
-    this.set_form_values();  
+    this.initial_form_values();  
   }
 
   ngOnInit(): void {
     console.log('ngOnInit');    
-    this.set_form_values();  
+    this.initial_form_values();  
     // this.delayedFunction(); //ΔΕΝ ΕΧΕΙ ΝΑ ΚΑΝΕΙ ΜΕ DELAY => την 1η φορά που εμφανίζεται το component ΔΕΝ έχω τα data...
   }
 
@@ -72,18 +78,18 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
     console.log('Before delay');
     await this.delay(2000); // Wait for 2000 milliseconds (2 seconds)
     console.log('After delay');
-    this.set_form_values(); 
+    this.initial_form_values(); 
   }
 
   private delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 //****************//
-  form = new FormGroup({
+  form = new FormGroup({    
     givenName: new FormControl('', Validators.required),
     surName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    afm: new FormControl('', Validators.required),
+    afm: new FormControl({ value: '', disabled: true }, Validators.required),
     phoneNumbers: new FormArray([ //FormArray
       new FormGroup({
         number: new FormControl('', Validators.required),
@@ -118,30 +124,37 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
   }
 
   update(value: any) {
-    // console.log(this.form.value);
+    console.log(this.form.value);
 
-    // const worker = this.form.value as Worker
-    // this.workerService.createWorker(worker).subscribe({
-    //   next: (response) => {
-    //     this.form.reset();
-    //     // this.registrationStatus = { success: true, message: response.msg };
-    //     // alert("Worker created")
-    //   },
-    //   error: (response) => {
-    //     const message = response.error.msg;
-    //     console.error('There was an error in adding a Worker!', message);
-    //     // this.registrationStatus = { success: false, message }; 
-    //   }
-    // })       
+
+    const worker = this.form.value as Worker
+    // let afm: string = ''
+    // afm = worker.afm   
+    this.workerService.updateWorkerByAfm(worker.afm, worker).subscribe({
+      next: (response) => {
+        this.router.navigate(['workers-dashboard']);
+        this.snackBar.open('Worker updated successfully!', 'Close', {
+          duration: 3000, // Duration in milliseconds (3 seconds)      
+          
+        });
+
+      },
+      error: (response) => {
+        const message = response.error.msg;
+        console.error('There was an error in adding a Worker!', message);   
+      }    
+    })       
+
   }
   
-  set_form_values(): void {
+  initial_form_values(): void {
     if (this.worker == null) {
       console.log("null worker")      
       this.form.disable()
     } else {
       this.form.enable()
-      this.form.patchValue({      
+      // this.form.get('afm').disable(); δεν δουλεύει το update!!!
+      this.form.patchValue({              
         givenName: this.worker.givenName,
         surName: this.worker.surName,
         email: this.worker.email,
@@ -155,13 +168,19 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
           city: this.worker.address.city,
           country: this.worker.address.country,
           zipCode: this.worker.address.zipCode
-        }          
-      });
+        }                    
+      }      
+     );      
     }
   }
 
   undo_changes() {
-    this.set_form_values();
+    this.initial_form_values();
+  }
+
+  disable_afm() {
+    // this.form.get('afm').disable(); δεν δουλεύει το update!!!
   }
 
 }
+

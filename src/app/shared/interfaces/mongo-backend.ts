@@ -38,7 +38,7 @@ export interface PhoneNumber{
 
 //*** Worker ***//
 export interface Worker {
-  // _id: string;
+  // id: string;
   givenName: string;
   surName: string;
   email: string;

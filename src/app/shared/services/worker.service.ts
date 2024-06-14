@@ -21,40 +21,42 @@ export class WorkerService {
     return this.http.get<Worker[]>(`${API_URL}/`);
   }
 
-  deleteWorker(afm: string) {
-    // console.log("Worker to delete (from worker.service.ts):", worker) 
-    console.log("Worker to delete (from worker.service.ts), AFM:", afm) 
-
-    // const afm = worker.afm   
-    // return this.http.post<{ msg: string }>(`${API_URL}/delete`, worker);
-    // return this.http.post<{ msg: string }>(`${API_URL}/delete/<string:worker_id>`, worker_id);
-    // return this.http.post<{ msg: string }>(`${API_URL}/delete/afm/<string:afm>`, afm);    
-    // return this.http.post<{ msg: string }>(`${API_URL}/delete/afm/<string:afm>`, worker.afm);    
-
-    //********//
-    // TypeError: delete_worker() missing 1 required positional argument: 'worker'
-    // return this.http.delete<{ msg: string }>(`${API_URL}/delete`, worker.afm);
+  deleteWorker(afm: string) { 
     const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json'
           })
         };
     const url = `${API_URL}/afm/${afm}`;
-    console.log("url from worker.service.ts:", url)
+    console.log("url from worker.service.ts (Delete):", url)
     return this.http.delete(url, httpOptions);
-
-    // return this.http.delete<{ msg: string }>(`${API_URL}/delete/afm/${worker.afm}`); 
   }
 
-  // deleteWorker(afm: string) {
+  updateWorkerByAfm(afm: string, worker: Worker) {
+    const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+          })
+        };
+    const url = `${API_URL}/afm/${afm}`;
+    console.log("url from worker.service.ts (Update):", url)
+    return this.http.patch(url, worker, httpOptions);
+  }
 
+  // id is undefined.... => δεν έχω την τιμή του...!
+  // updateWorkerById(id: string, worker: Worker) {
+  //   // console.log("Worker to delete (from worker.service.ts):", worker) 
+  //   console.log("Worker to update (from worker.service.ts), _id:", id) 
+  //   console.log("Worker to update (from worker.service.ts), WORKER:", worker) 
   //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json'
-  //     })
-  //   };
-  //   return this.http.delete(`${API_URL}/delete/afm/${afm}`, httpOptions);
-  //   // return this.http.delete(`${API_URL}/delete/afm/${afm}`);
+  //         headers: new HttpHeaders({
+  //           'Content-Type': 'application/json'
+  //         })
+  //       };
+  //   const url = `${API_URL}/afm/${id}`;
+  //   console.log("url from worker.service.ts (Update):", url)
+  //   console.log("id from worker.service.ts (Update):", id)
+  //   return this.http.patch(url, worker, httpOptions);
   // }
  
 }

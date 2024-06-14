@@ -37,13 +37,18 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-3">
           <mat-label>AFM</mat-label>
-          <input matInput type="text" formControlName="afm" />
+          <input matInput type="text" formControlName="afm" (click)="disable_afm()"/>
           @if (form.get("afm").hasError("duplicateAFM")) {
             <mat-error>AFM is already registered</mat-error>
           } @else {
-            @if (form.get("afm").invalid && form.get("afm").touched) {
+            <!-- @if (form.get("afm").invalid && form.get("afm").touched) {
               <mat-error
                 >AFM is missing or invalid</mat-error
+              >
+            } -->
+            @if (form.get("afm").touched) {
+              <mat-error
+                >AFM can't be changed!</mat-error
               >
             }
           }
