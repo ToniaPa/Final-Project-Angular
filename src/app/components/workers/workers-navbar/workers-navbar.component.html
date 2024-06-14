@@ -1,33 +1,50 @@
 
   <nav class="navbar icon-display d-flex flex-nowrap" >
-    <!-- <button    
-        matTooltip="Show All Workers"
-        mat-icon-button 
-        aria-label="Show" 
-        routerLink="/workers-dashboard/show-all-workers"       
-        class="icon-display"
-      >
-      <mat-icon matTooltip="Add a Worker">grid_on</mat-icon> 
-    </button>   -->
-    <button    
-        matTooltip="Add a Worker"
-        matTooltipPosition="right"
-        mat-icon-button 
-        aria-label="Create" 
-        routerLink="/workers-dashboard/create"      
+    <div class="container-fluid">
+      <!-- <button    
+          matTooltip="Show All Workers"
+          mat-icon-button 
+          aria-label="Show" 
+          routerLink="/workers-dashboard/show-all-workers"       
+          class="icon-display"
         >
-       <mat-icon 
-        matTooltip="Add a Worker" 
-        matTooltipPosition="right"
-        >
-        add
-      </mat-icon>
-        <!-- Add a Worker -->
-    </button>   
-    <!-- <button mat-icon-button aria-label="Delete">
-      <mat-icon>delete</mat-icon>
-    </button> -->
-    <button mat-icon-button aria-label="Search" >
-      <mat-icon>search</mat-icon>
-    </button>
+        <mat-icon matTooltip="Add a Worker">grid_on</mat-icon> 
+      </button>   -->
+      <button    
+          matTooltip="Add a Worker"
+          matTooltipPosition="right"
+          mat-icon-button 
+          aria-label="Create" 
+          routerLink="/workers-dashboard/create"   
+          class="me-5"   
+          >
+        <mat-icon 
+          matTooltip="Add a Worker" 
+          matTooltipPosition="right"
+          >
+          add
+        </mat-icon>
+          <!-- Add a Worker -->
+      </button>   
+      <!-- <button mat-icon-button aria-label="Delete">
+        <mat-icon>delete</mat-icon>
+      </button> -->       
+      
+      <form class="d-flex">
+        <input 
+          class="form-control" 
+          type="search" 
+          placeholder="Enter criteria" 
+          aria-label="Search" 
+          #searchInput
+          class="input-sm"
+          >
+        <button 
+          class="btn btn-outline-secondary btn-sm ms-1" 
+          type="submit" 
+          (click)="search(searchInput.value)"
+          >Search
+        </button>
+      </form>
+   </div>
 </nav>

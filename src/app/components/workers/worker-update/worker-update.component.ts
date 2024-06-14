@@ -134,8 +134,7 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
       next: (response) => {
         this.router.navigate(['workers-dashboard']);
         this.snackBar.open('Worker updated successfully!', 'Close', {
-          duration: 3000, // Duration in milliseconds (3 seconds)      
-          
+          duration: 3000, // Duration in milliseconds (3 seconds)  
         });
 
       },
@@ -151,6 +150,9 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
     if (this.worker == null) {
       console.log("null worker")      
       this.form.disable()
+      this.snackBar.open('PLEASE TRY AGAIN!', 'Close', {
+        duration: 3000, // Duration in milliseconds (3 seconds)  
+      })
     } else {
       this.form.enable()
       // this.form.get('afm').disable(); δεν δουλεύει το update!!!
