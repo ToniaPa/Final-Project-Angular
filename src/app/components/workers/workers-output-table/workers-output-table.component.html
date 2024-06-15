@@ -1,58 +1,84 @@
-
-<div class="table-responsive mt-1">  
-  <table class="table table-hover table-bordered border-white text-wrap">
-      <!-- <title>Workers:</title> -->
-      <thead>
-        <tr class="align-middle text-left">
-          <th role="button" (click)="sortData('givenName')">First Name {{ sortSign("givenName") }}</th>
-          <th role="button" (click)="sortData('surName')">Last Name {{ sortSign("surName") }}</th>  
-          <th role="button" class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell" (click)="sortData('email')" >Email {{ sortSign("email") }}</th>
-          <th role="button" class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell" (click)="sortData('afm')" >Afm {{ sortSign("afm") }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (row of workers; track row) {   
-          <tr class="align-middle" (dblclick)="onWorkerDetailsClicked(row)">
-            <td>{{ row.givenName }}</td>
-            <td>{{ row.surName }}</td>
-            <td class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell">{{ row.email }}</td>
-            <td class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell">{{ row.afm }}</td>    
-            <td>          
-              <button    
-                matTooltip="Worker's Details"
-                mat-icon-button 
-                aria-label="Show Details"             
-                (click)="onWorkerDetailsClicked(row)"
-              >
-                <mat-icon matTooltip="Worker's Details">description</mat-icon> 
-              </button>
-            </td> 
-            <td>          
-              <button    
-                matTooltip="Edit Worker"
-                mat-icon-button 
-                aria-label="Edit Worker"             
-                (click)="onWorkerEditClicked(row)"
-                routerLink="/workers-dashboard/update" 
-              >
-                <mat-icon matTooltip="Edit Worker">edit</mat-icon>                 
-              </button>
-            </td>  
-            <td>          
-              <button    
-                matTooltip="Delete Worker"
-                mat-icon-button 
-                aria-label="Delete Worker"             
-                (click)="onWorkerDeleteClicked(row)"
-              >
-                <mat-icon matTooltip="Delete Worker">delete</mat-icon> 
-              </button>
-            </td> 
+<div class="container"> 
+  <div class="d-flex flex-row">
+    <input 
+      class="input-sm" 
+      type="search" 
+      placeholder="Search Worker(s)" 
+      aria-label="Search"     
+      [(ngModel)]="searchInput"
+      class="input-sm"
+    >
+    <button                        
+        class="btn btn-outline-secondary btn-sm ms-1"  
+        aria-label="Search Workers"             
+        (click)="filterWorkers()"
+        >Search
+          <!-- <mat-icon matTooltip="Search Worker">filter</mat-icon>  -->
+    </button>
+    <button           
+        class="btn btn-outline-secondary btn-sm ms-1" 
+        aria-label="Clear"             
+        (click)="clearFilterWorkers()"
+      >Clear
+        <!-- <mat-icon matTooltip="Clear">clear</mat-icon>  -->
+    </button>
+  </div>
+  <div class="table-responsive mt-1">  
+    <table class="table table-hover table-bordered border-white text-wrap">
+        <!-- <title>Workers:</title> -->
+        <thead>
+          <tr class="align-middle text-left">
+            <th role="button" (click)="sortData('givenName')">First Name {{ sortSign("givenName") }}</th>
+            <th role="button" (click)="sortData('surName')">Last Name {{ sortSign("surName") }}</th>  
+            <th role="button" class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell" (click)="sortData('email')" >Email {{ sortSign("email") }}</th>
+            <th role="button" class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell" (click)="sortData('afm')" >Afm {{ sortSign("afm") }}</th>
           </tr>
-        }
-      </tbody>
-  </table>
-</div>
+        </thead>
+        <tbody>
+          <!-- @for (row of workers; track row) {    -->
+          @for (row of filteredWorkers; track row) { 
+            <tr class="align-middle" (dblclick)="onWorkerDetailsClicked(row)">
+              <td>{{ row.givenName }}</td>
+              <td>{{ row.surName }}</td>
+              <td class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell">{{ row.email }}</td>
+              <td class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell">{{ row.afm }}</td>    
+              <td>          
+                <button    
+                  matTooltip="Worker's Details"
+                  mat-icon-button 
+                  aria-label="Show Details"             
+                  (click)="onWorkerDetailsClicked(row)"
+                >
+                  <mat-icon matTooltip="Worker's Details">description</mat-icon> 
+                </button>
+              </td> 
+              <td>          
+                <button    
+                  matTooltip="Edit Worker"
+                  mat-icon-button 
+                  aria-label="Edit Worker"             
+                  (click)="onWorkerEditClicked(row)"
+                  routerLink="/workers-dashboard/update" 
+                >
+                  <mat-icon matTooltip="Edit Worker">edit</mat-icon>                 
+                </button>
+              </td>  
+              <td>          
+                <button    
+                  matTooltip="Delete Worker"
+                  mat-icon-button 
+                  aria-label="Delete Worker"             
+                  (click)="onWorkerDeleteClicked(row)"
+                >
+                  <mat-icon matTooltip="Delete Worker">delete</mat-icon> 
+                </button>
+              </td>             
+            </tr>
+          }
+        </tbody>
+    </table>
+  </div>
+</div> 
 
 
 

@@ -16,6 +16,7 @@ import { RouterLink } from '@angular/router';
 import { SharedataService } from 'src/app/shared/data/sharedata.service';
 import { Subscription } from 'rxjs';
 import { WorkerUpdateComponent } from '../worker-update/worker-update.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-workers-output-table',
@@ -28,20 +29,24 @@ import { WorkerUpdateComponent } from '../worker-update/worker-update.component'
     MatTooltipModule,
     RouterLink,   
     WorkerUpdateComponent,
+    FormsModule ,
   ],
   templateUrl: './workers-output-table.component.html',
   styleUrl: './workers-output-table.component.css'
 })
 export class WorkersOutputTableComponent implements OnInit {
 
+  workerService = inject(WorkerService);
+  sharedataService = inject(SharedataService);
+
+  workers: Worker[];
+  filteredWorkers: any[] = [];
+  searchInput: string;
+
   constructor(
     public dialog: Dialog,
     public matDialog: MatDialog,    
   ) {};
-
-  workerService = inject(WorkerService);
-
-  workers: Worker[];
 
   // @Output() workerEditClicked = new EventEmitter<Worker>();
 
@@ -50,6 +55,7 @@ export class WorkersOutputTableComponent implements OnInit {
       next: (response) => {
         console.log("workers-output-table.ts (get_all_workers) success");
         this.workers = response;
+        this.filteredWorkers = this.workers
         console.log("workers =", this.workers)      
       },
       error: (response) => {
@@ -113,12 +119,32 @@ export class WorkersOutputTableComponent implements OnInit {
       return '';
     };
   };
+  //end of Sorting
 
-  //
-  //** Events **//
+  //Search
+  filterWorkers(): void {
+    this.filteredWorkers = this.workers;  
+    // alert(this.searchInput);    
+    const lowerCaseQuery = this.searchInput.toLowerCase().trim();
+    this.filteredWorkers = this.workers.filter(item =>
+      Object.values(item).some(value =>
+        String(value).toLowerCase().includes(lowerCaseQuery)
+      )
+    );
+    // console.log("filter:", lowerCaseQuery)
+    // console.log("filtered workers: ", this.filteredWorkers);
+  }
+
+  clearFilterWorkers(): void {
+    this.searchInput = '';
+    this.filteredWorkers = this.workers;
+  }
+  //end of Search
+
   //
   ngOnInit(): void {    
     this.get_all_workers();
+    // this.filteredWorkers = this.workers;
   }
 
   onWorkerDetailsClicked(worker: Worker) { 
@@ -130,21 +156,14 @@ export class WorkersOutputTableComponent implements OnInit {
     });
   };
  
-  sharedataService = inject(SharedataService);
-  
-
   onWorkerEditClicked(worker: Worker) { 
-
     // όχι με emitter, δεν είναι parent-child
-
-    console.log("clicked for edit: ", worker)   
-
+    // console.log("clicked for edit: ", worker)   
     this.sharedataService.sendWorker(worker); // μέσω του SharedataService
   };
 
   onWorkerDeleteClicked(worker: Worker) { 
     console.log("clicked for delete: ", worker)
-
     const dialogRef = this.matDialog.open(ConfirmYesnoDialogComponent, {
       width: '300px',
       data: { message: `Are you sure you want to delete worker: ${worker.givenName} ${worker.surName}?`}

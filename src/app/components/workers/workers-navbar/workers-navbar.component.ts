@@ -26,11 +26,10 @@ import { CommonModule } from '@angular/common';
 export class WorkersNavbarComponent {
 
 
-  search(query: string): void {
-    // Implement your search logic here
-    console.log('Searching for:', query);
-    // You can add further logic to handle the search functionality
-  }
-
+  // search(query: string): void {
+  //   // Implement your search logic here
+  //   console.log('Searching for:', query);
+  //   // You can add further logic to handle the search functionality
+  // }
 
 }

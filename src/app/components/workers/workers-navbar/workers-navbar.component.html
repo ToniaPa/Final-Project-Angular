@@ -1,6 +1,5 @@
-
   <nav class="navbar icon-display d-flex flex-nowrap" >
-    <div class="container-fluid">
+    <div class="container-fluid ">
       <!-- <button    
           matTooltip="Show All Workers"
           mat-icon-button 
@@ -12,12 +11,13 @@
       </button>   -->
       <button    
           matTooltip="Add a Worker"
-          matTooltipPosition="right"
-          mat-icon-button 
+          matTooltipPosition="right"        
+          mat-icon-button
           aria-label="Create" 
           routerLink="/workers-dashboard/create"   
           class="me-5"   
           >
+          <!-- Add a Worker -->
         <mat-icon 
           matTooltip="Add a Worker" 
           matTooltipPosition="right"
@@ -30,7 +30,7 @@
         <mat-icon>delete</mat-icon>
       </button> -->       
       
-      <form class="d-flex">
+      <!-- <form class="d-flex">
         <input 
           class="form-control" 
           type="search" 
@@ -45,6 +45,6 @@
           (click)="search(searchInput.value)"
           >Search
         </button>
-      </form>
+      </form> -->
    </div>
 </nav>
