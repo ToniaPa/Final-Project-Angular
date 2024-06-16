@@ -1,6 +1,6 @@
 // All interfaces for MongoDB backend
 
-// *** User ***//
+// *** User Login***//
 export interface User {
   givenName: string;
   surName: string;
@@ -20,7 +20,7 @@ export interface LoggedInUser { //εδώ κρατάω την πληροφορί�
   //συγκεκριμένα το @user.route("/login", methods=["POST"])
   //εκεί βλέπω τι μου επιστρέφει το backend στο Login του user
 }
-//*** end of User ***//
+//*** end of User Login***//
 
 
 export interface Address {

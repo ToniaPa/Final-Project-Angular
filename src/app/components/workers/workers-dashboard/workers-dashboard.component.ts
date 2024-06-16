@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { WorkersNavbarComponent } from '../workers-navbar/workers-navbar.component';
 import { WorkersOutputTableComponent } from '../workers-output-table/workers-output-table.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workers-dashboard',
@@ -13,5 +14,5 @@ import { WorkersOutputTableComponent } from '../workers-output-table/workers-out
   styleUrl: './workers-dashboard.component.css'
 })
 export class WorkersDashboardComponent {
-
+  router = inject(Router);
 }

@@ -31,10 +31,11 @@
     type="submit" 
     class="btn-success"
     [disabled]="!form.valid">Login
+    
   </button>
   @if(invalidLogin) {
     <div class="alert alert-danger text-wrap">
       <strong>Error: </strong>Invalid email or password. Click <a routerLink ='/user-registration' role ="button">here</a> to register
     </div>
-  }
+  } 
 </form> 

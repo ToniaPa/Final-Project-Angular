@@ -12,7 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmYesnoDialogComponent } from '../../confirm-yesno-dialog/confirm-yesno-dialog.component';
 import { emitDistinctChangesOnlyDefaultValue } from '@angular/compiler';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SharedataService } from 'src/app/shared/data/sharedata.service';
 import { Subscription } from 'rxjs';
 import { WorkerUpdateComponent } from '../worker-update/worker-update.component';
@@ -36,6 +36,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class WorkersOutputTableComponent implements OnInit {
 
+  // router = inject(Router);
   workerService = inject(WorkerService);
   sharedataService = inject(SharedataService);
 

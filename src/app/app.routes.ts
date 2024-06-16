@@ -9,6 +9,7 @@ import { UserRegistrationComponent } from './components/user-registration/user-r
 import { WorkerCreateComponent } from './components/workers/worker-create/worker-create.component';
 import { WorkersOutputTableComponent } from './components/workers/workers-output-table/workers-output-table.component';
 import { WorkerUpdateComponent } from './components/workers/worker-update/worker-update.component';
+import { authGuard } from './shared/guards/auth.guard';
 
 
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {
     path: 'workers',
     component: WorkersDashboardComponent,
+    canActivate: [authGuard], 
   },
   {
     path: 'clients',

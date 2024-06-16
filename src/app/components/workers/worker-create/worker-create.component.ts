@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { WorkerService } from 'src/app/shared/services/worker.service';
 import { Worker } from 'src/app/shared//interfaces/mongo-backend';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-worker-create',
@@ -32,6 +33,7 @@ import { CommonModule } from '@angular/common';
 })
 export class WorkerCreateComponent {
 
+  router = inject(Router);
   workerService = inject(WorkerService);
 
   registrationStatus: { success: boolean; message: string } = {

@@ -29,6 +29,7 @@ export class UserLoginComponent {
 
    //
    hidePassword = true;
+   registeredFullname = "";
  
    clickPassword(event: MouseEvent) {
      this.hidePassword = !this.hidePassword;
@@ -59,9 +60,9 @@ export class UserLoginComponent {
         // .sub = ό,τι κουβαλάει το access_token που μας στέλνει το backend βρίσκεται μέσα στο sub, με to as κάνουμε type cast, as unknown το κάνουμε πάντα όταν δεν ξέρουμε τι είναι
         this.userService.user.set({
           fullname: decodedTokenSubject.fullname,
-          email: decodedTokenSubject.email
+          email: decodedTokenSubject.email          
         });
-        this.router.navigate(['restricted-content-example']); //εδώ είμαστε στην περίπτωση που ο user έχει τα σωστά credentials και άρα γίνεται logged in και το επόμενο βήμα είναι να πάει στην οθόνη του restricted-content-example component (έτσι του λέμε εμείς να κάνει) δηλ όταν ο user έχει τα σωστά credentials του επιτρέπουμε να δει την restricted-content-example, αλλιώς δεν την βλέπει
+        this.router.navigate(['/workers-dashboard']); 
       },
       error: (response) => {
         console.log('Login error', response);
