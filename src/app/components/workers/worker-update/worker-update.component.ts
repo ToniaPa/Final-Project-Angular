@@ -89,19 +89,29 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
     givenName: new FormControl('', Validators.required),
     surName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    afm: new FormControl({ value: '', disabled: true }, Validators.required),
+    afm: new FormControl({ value: '', disabled: true }, 
+                          [Validators.required, 
+                           Validators.minLength(9),
+                           Validators.maxLength(9),
+                           Validators.pattern('^[0-9]*$'),]),
     phoneNumbers: new FormArray([ //FormArray
       new FormGroup({
-        number: new FormControl('', Validators.required),
+        number: new FormControl('', [Validators.required,
+                                     Validators.minLength(10),
+                                     Validators.pattern('^[0-9+]*$'),]),
         type: new FormControl('', Validators.required),
       }),
     ]),
     address: new FormGroup({
       street: new FormControl('', Validators.required),
-      number: new FormControl('', Validators.required),
+      number: new FormControl('', [Validators.required, 
+                                   Validators.pattern('^[1-9][0-9a-zA-Z]*$'),
+                                   Validators.minLength(1),
+                                   Validators.maxLength(5)]
+                             ),
       city: new FormControl('', Validators.required),
-      country: new FormControl('', Validators.required),
-      zipCode: new FormControl('', Validators.required),
+      country: new FormControl('Greece', Validators.required),
+      zipCode: new FormControl('', [Validators.required, Validators.minLength(5)])
     }),
   });
 
@@ -125,8 +135,6 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
 
   update(value: any) {
     console.log(this.form.value);
-
-
     const worker = this.form.value as Worker
     // let afm: string = ''
     // afm = worker.afm   
@@ -150,8 +158,11 @@ export class WorkerUpdateComponent implements OnInit, AfterViewInit{
     if (this.worker == null) {
       console.log("null worker")      
       this.form.disable()
-      this.snackBar.open('PLEASE TRY AGAIN!', 'Close', {
+      this.snackBar.open('THE FIRST TIME I DO NOT HAVE DATA, PLEASE TRY AGAIN!', 'Close', {
         duration: 3000, // Duration in milliseconds (3 seconds)  
+        // horizontalPosition: 'right',
+        verticalPosition: 'bottom',        
+        panelClass: 'custom-snackbar"',
       })
     } else {
       this.form.enable()

@@ -8,7 +8,7 @@
         <form [formGroup]="form" class="d-flex flex-column col-9">
           <mat-form-field appearance="outline">
             <mat-label>First Name</mat-label>
-            <input matInput type="text" formControlName="givenName" />
+            <input matInput type="text" formControlName="givenName"/>
             @if (form.get("givenName").invalid && form.get("givenName").touched) {
               <mat-error>First Name is required</mat-error>
             }
@@ -46,7 +46,7 @@
               } @else {
                 @if (form.get("afm").invalid && form.get("afm").touched) {
                   <mat-error
-                    >AFM is missing or invalid</mat-error
+                    >AFM must have exactly 9 digits</mat-error
                   >
                 }
               }
@@ -59,14 +59,14 @@
               <div [formGroupName]="i" class="d-flex gap-3 align-items-center">
                 <mat-form-field appearance="outline">
                   <mat-label>Phone Number</mat-label>
-                  <input matInput type="text" formControlName="number" />
+                  <input matInput type="text" formControlName="number" placeholder="At least 10 digits" />
                   @if (
                     phone.get("number").invalid && phone.get("number").touched
-                  ) {
+                  ) {                                   
                     <mat-error class="text-wrap">
-                      Phone Number is required
-                    </mat-error>
-                  }
+                      Phone is missing or invalid                 
+                    </mat-error>   
+                  }      
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Type</mat-label>
@@ -121,7 +121,7 @@
                   form.get("address.number").invalid &&
                   form.get("address.number").touched
                 ) {
-                  <mat-error>Road number is required</mat-error>
+                  <mat-error>Road number is missing or invalid</mat-error>
                 }
               </mat-form-field>
             </div>
@@ -149,7 +149,7 @@
               </mat-form-field>
               <mat-form-field appearance="outline" class="col-3">
                 <mat-label>ZIP Code</mat-label>
-                <input matInput type="text" formControlName="zipCode" />
+                <input matInput type="text" formControlName="zipCode" placeholder="5 digits or more"/>
                 @if (
                   form.get("address.zipCode").invalid &&
                   form.get("address.zipCode").touched

@@ -97,10 +97,10 @@ export class WorkersOutputTableComponent implements OnInit {
   sortData(sortKey: string) { //εναλλαγή μεταξύ asc και desc:
     if (this.sortOrder[sortKey] === 'asc') { // το sortOrder είναι object
       this.sortOrder[sortKey] = 'desc';
-      this.workers = sortBy(this.workers, sortKey).reverse(); //sortBy είναι μέθοδος της lodash, η reverse είναι μεθοδος της typescript      
+      this.filteredWorkers = sortBy(this.filteredWorkers, sortKey).reverse(); //sortBy είναι μέθοδος της lodash, η reverse είναι μεθοδος της typescript      
     } else {
       this.sortOrder[sortKey] = 'asc';
-      this.workers = sortBy(this.workers, sortKey); //sortBy είναι μέθοδος της lodash
+      this.filteredWorkers = sortBy(this.filteredWorkers, sortKey); //sortBy είναι μέθοδος της lodash
     };
 
     for (let key in this.sortOrder) {

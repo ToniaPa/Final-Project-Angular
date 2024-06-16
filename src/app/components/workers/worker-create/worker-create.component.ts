@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { WorkerService } from 'src/app/shared/services/worker.service';
 import { Worker } from 'src/app/shared//interfaces/mongo-backend';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-worker-create',
@@ -24,6 +25,7 @@ import { Worker } from 'src/app/shared//interfaces/mongo-backend';
     MatSelectModule,
     MatButtonModule,
     MatIconModule,    
+    CommonModule,
   ],
   templateUrl: './worker-create.component.html',
   styleUrl: './worker-create.component.css'
@@ -41,18 +43,29 @@ export class WorkerCreateComponent {
     givenName: new FormControl('', Validators.required),
     surName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    afm: new FormControl('', Validators.required),
+    afm: new FormControl('', [Validators.required, 
+                              Validators.minLength(9),
+                              Validators.maxLength(9),
+                              Validators.pattern('^[0-9]*$'),
+                             ]
+                        ),
     phoneNumbers: new FormArray([ //FormArray
       new FormGroup({
-        number: new FormControl('', Validators.required),
+        number: new FormControl('', [Validators.required,
+                                     Validators.minLength(10),
+                                     Validators.pattern('^[0-9+]*$'),]),
         type: new FormControl('', Validators.required),
       }),
     ]),
     address: new FormGroup({
       street: new FormControl('', Validators.required),
-      number: new FormControl('', Validators.required),
+      number: new FormControl('', [Validators.required, 
+                                   Validators.pattern('^[1-9][0-9a-zA-Z]*$'),
+                                   Validators.minLength(1),
+                                   Validators.maxLength(5)]),
       city: new FormControl('', Validators.required),
-      country: new FormControl('', Validators.required),
+      country: new FormControl('Greece', [Validators.required, 
+                                          Validators.minLength(5)]),
       zipCode: new FormControl('', Validators.required),
     }),
   });
