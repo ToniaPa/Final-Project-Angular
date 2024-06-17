@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
     RouterLinkActive,
     MatTooltipModule,
     CommonModule,
-
   ],
   templateUrl: './workers-navbar.component.html',
   styleUrl: './workers-navbar.component.css'

@@ -1,0 +1,84 @@
+<div class="container"> 
+  <div class="d-flex flex-row">
+    <input 
+      class="input-sm" 
+      type="search" 
+      placeholder="Search Client(s)" 
+      aria-label="Search"     
+      [(ngModel)]="searchInput"
+      class="input-sm"
+    >
+    <button                        
+        class="btn btn-outline-secondary btn-sm ms-1"  
+        aria-label="Search Clients"             
+        (click)="filterClients()"
+        >Search
+          <!-- <mat-icon matTooltip="Search Client">filter</mat-icon>  -->
+    </button>
+    <button           
+        class="btn btn-outline-secondary btn-sm ms-1" 
+        aria-label="Clear"             
+        (click)="clearFilterClients()"
+      >Clear
+        <!-- <mat-icon matTooltip="Clear">clear</mat-icon>  -->
+    </button>
+  </div>
+  <div class="table-responsive mt-1">  
+    <table class="table table-hover table-bordered border-white text-wrap">
+        <!-- <title>Clients:</title> -->
+        <thead>
+          <tr class="align-middle text-left">
+            <th role="button" (click)="sortData('brandName')">Brand Name {{ sortSign("brandName") }}</th>              
+            <th role="button" class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell" (click)="sortData('email')" >Email {{ sortSign("email") }}</th>
+            <th role="button" class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell" (click)="sortData('afm')" >Afm {{ sortSign("afm") }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- @for (row of clients; track row) {    -->
+          @for (row of filteredClients; track row) { 
+            <tr class="align-middle" (dblclick)="onClientDetailsClicked(row)">
+              <td>{{ row.brandName }}</td>              
+              <td class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell">{{ row.email }}</td>
+              <td class="d-none d-lg-table-cell d-md-table-cell d-sm-table-cell">{{ row.afm }}</td>    
+              <td>          
+                <button    
+                  matTooltip="Client's Details"
+                  mat-icon-button 
+                  aria-label="Show Details"             
+                  (click)="onClientDetailsClicked(row)"
+                >
+                  <mat-icon matTooltip="Client's Details">description</mat-icon> 
+                </button>
+              </td> 
+              <td>          
+                <button    
+                  matTooltip="Edit Client"
+                  mat-icon-button 
+                  aria-label="Edit Client"             
+                  (click)="onClientEditClicked(row)"
+                  routerLink="/clients-dashboard/update" 
+                >
+                  <mat-icon matTooltip="Edit Client">edit</mat-icon>                 
+                </button>
+              </td>  
+              <td>          
+                <button    
+                  matTooltip="Delete Client"
+                  mat-icon-button 
+                  aria-label="Delete Client"             
+                  (click)="onClientDeleteClicked(row)"
+                >
+                  <mat-icon matTooltip="Delete Client">delete</mat-icon> 
+                </button>
+              </td>             
+            </tr>
+          }
+        </tbody>
+    </table>
+  </div>
+</div> 
+
+
+
+
+

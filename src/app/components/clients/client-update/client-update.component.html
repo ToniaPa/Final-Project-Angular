@@ -1,0 +1,175 @@
+
+<div class="container">      
+  <div class="d-flex flex-column overflow-hidden col-9">
+    <h3 class="text-dark"><strong>Update a Client</strong></h3>
+    <form [formGroup]="form" class="d-flex flex-column col-9">
+      <mat-form-field appearance="outline">
+        <mat-label>Brand Name</mat-label>
+        <input matInput type="text" formControlName="brandName" id="brandName"/>        
+        @if (form.get("brandName").invalid && form.get("brandName").touched) {
+          <mat-error>Brand Name is required</mat-error>
+        }
+      </mat-form-field>    
+      <!-- email + afm: -->
+      <div class="d-flex flex-row gap-1">
+        <mat-form-field appearance="outline" class="col-8">
+          <mat-label>Email</mat-label>
+          <input
+            matInput                
+            type="text"
+            formControlName="email"
+            class="text-wrap"
+          />
+          @if (form.get("email").hasError("duplicateEmail")) {
+            <mat-error>Email is already registered</mat-error>
+          } @else {
+            @if (form.get("email").invalid && form.get("email").touched) {
+              <mat-error>Email is missing or invalid</mat-error>
+            }
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>AFM</mat-label>
+          <input matInput type="text" formControlName="afm" (click)="disable_afm()"/>
+          @if (form.get("afm").hasError("duplicateAFM")) {
+            <mat-error>AFM is already registered</mat-error>
+          } @else {
+            <!-- @if (form.get("afm").invalid && form.get("afm").touched) {
+              <mat-error
+                >AFM is missing or invalid</mat-error
+              >
+            } -->
+            @if (form.get("afm").touched) {
+              <mat-error
+                >AFM must have exactly 9 digits</mat-error
+              >
+            }
+          }
+        </mat-form-field>
+      </div>
+      <!-- end of email + afm -->
+      <!-- ΓΙΑ ΝΑ ΧΕΙΡΙΣΤΟΥΜΕ ΕΝΑ FORM ARRAY ΠΡΕΠΕΙ ΝΑ ΠΕΡΙΚΛΕΙΣΟΥΜΕ ΤΟ @for ΠΟΥ ΚΑΝΟΥΜΕ ΣΤΟ FORM ARRAY ΜΕΣΑ ΣΕ ΕΝΑ div ΠΟΥ ΘΑ ΛΈΕΙ  formArrayName="TO ONOMA TOY FORM ARRAY"-->
+      <div formArrayName="phoneNumbers">
+        @for (phone of phoneNumbers.controls; let i = $index; track i) {
+          <div [formGroupName]="i" class="d-flex gap-3 align-items-center">
+            <mat-form-field appearance="outline">
+              <mat-label>Phone Number</mat-label>
+              <input matInput type="text" formControlName="number" 
+              placeholder="At least 10 digits"/>
+              @if (
+                phone.get("number").invalid && phone.get("number").touched
+              ) {
+                <mat-error class="text-wrap">
+                  Phone is missing or invalid
+                </mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option value="Mobile">Mobile</mat-option>
+                <mat-option value="Work">Work</mat-option>
+                <mat-option value="Home">Home</mat-option>
+              </mat-select>
+              @if (phone.get("type").invalid && phone.get("type").touched) {
+                <mat-error class="text-wrap">
+                  Please select a Phone Type
+                </mat-error>
+              }
+            </mat-form-field>
+            @if (phoneNumbers.controls.length > 1 && i !== 0) {
+              <mat-icon
+                role="button"
+                (click)="removePhoneNumber(i)"
+                class="cursor-pointer"
+                >delete</mat-icon
+              >
+            }
+            @if (phoneNumbers.controls[i].valid) {
+              <mat-icon
+                role="button"
+                (click)="addPhoneNumber()"
+                class="cursor-pointer"
+                >add</mat-icon
+              >
+            }
+          </div>
+        }
+      </div>
+      <!-- ΑΝΤΙΣΤΟΙΧΑ ΓΙΑ ΝΑ ΧΕΙΡΙΣΤΟΥΜΕ ΕΝΑ FORM GROUP ΠΟΥ ΕΊΝΑΙ ΜΈΣΑ ΣΤΟ ΚΥΡΙΩς FORM GROUP ΠΡΕΠΕΙ ΝΑ ΠΕΡΙΚΛΕΙΣΟΥΜΕΜΕΣΑ ΣΕ ΕΝΑ div ΠΟΥ ΘΑ ΛΈΕΙ  formGroupName="TO ONOMA TOY FORM GROUP"-->        
+      <div formGroupName="address" class="d-flex flex-column">
+<!-- address + address no: -->
+        <div class="d-flex flex-row gap-1">
+          <mat-form-field appearance="outline" class="col-8">
+            <mat-label>Road address</mat-label>
+            <input matInput type="text" formControlName="street" />
+            @if (
+              form.get("address.street").invalid &&
+              form.get("address.street").touched
+            ) {
+              <mat-error>Road address is required</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-3">
+            <mat-label>Road no</mat-label>
+            <input matInput type="text" formControlName="number" />
+            @if (
+              form.get("address.number").invalid &&
+              form.get("address.number").touched
+            ) {
+              <mat-error>Road number is missing or invalid</mat-error>
+            }
+          </mat-form-field>
+        </div>
+<!-- city + country + zip code: -->
+        <div class="d-flex flex-row gap-1">
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>City</mat-label>
+            <input matInput type="text" formControlName="city" />
+            @if (
+              form.get("address.city").invalid &&
+              form.get("address.city").touched
+            ) {
+              <mat-error>City is required</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Country</mat-label>
+            <input matInput type="text" formControlName="country" />
+            @if (
+              form.get("address.country").invalid &&
+              form.get("address.country").touched
+            ) {
+              <mat-error>Country is required</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-3">
+            <mat-label>ZIP Code</mat-label>
+            <input matInput type="text" formControlName="zipCode" placeholder="5 digits or more"/>
+            @if (
+              form.get("address.zipCode").invalid &&
+              form.get("address.zipCode").touched
+            ) {
+              <mat-error>ZIP Code is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+    <!-- </form> -->
+      <div class="d-flex gap-2">
+        <button                   
+          (click)="update(form.value)"
+          [disabled]="form.invalid"
+        >
+          Update
+        </button>
+        <button    
+         mat-button style ="color: gray; font-style: italic;"     
+         (click)="undo_changes()"
+        >
+         Undo Changes
+      </button>
+      </div>
+    </form>
+ </div>
+</div>

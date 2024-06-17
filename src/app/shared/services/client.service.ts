@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
+import { Client } from '../interfaces/mongo-backend';
 
 const API_URL = `${environment.apiURL}/clients`;
 
@@ -10,12 +11,12 @@ const API_URL = `${environment.apiURL}/clients`;
 export class ClientService {
   http: HttpClient = inject(HttpClient);
 
-  createClient(worker: Worker) {
-    return this.http.post<{ msg: string }>(`${API_URL}/create`, worker);
+  createClient(client: Client) {
+    return this.http.post<{ msg: string }>(`${API_URL}/create`, client);
   }
 
   getAllClients() {
-    return this.http.get<Worker[]>(`${API_URL}/`);
+    return this.http.get<Client[]>(`${API_URL}/`);
   }
 
   deleteClient(afm: string) { 
@@ -25,35 +26,19 @@ export class ClientService {
           })
         };
     const url = `${API_URL}/afm/${afm}`;
-    console.log("url from worker.service.ts (Delete):", url)
+    console.log("url from client.service.ts (Delete):", url)
     return this.http.delete(url, httpOptions);
   }
 
-  updateClientByAfm(afm: string, worker: Worker) {
+  updateClientByAfm(afm: string, client: Client) {
     const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json'
           })
         };
     const url = `${API_URL}/afm/${afm}`;
-    console.log("url from worker.service.ts (Update):", url)
-    return this.http.patch(url, worker, httpOptions);
+    console.log("url from client.service.ts (Update):", url)
+    return this.http.patch(url, client, httpOptions);
   }
 
-  // id is undefined.... => δεν έχω την τιμή του...!
-  // updateClientById(id: string, worker: Worker) {
-  //   // console.log("Worker to delete (from worker.service.ts):", worker) 
-  //   console.log("Worker to update (from worker.service.ts), _id:", id) 
-  //   console.log("Worker to update (from worker.service.ts), WORKER:", worker) 
-  //   const httpOptions = {
-  //         headers: new HttpHeaders({
-  //           'Content-Type': 'application/json'
-  //         })
-  //       };
-  //   const url = `${API_URL}/afm/${id}`;
-  //   console.log("url from worker.service.ts (Update):", url)
-  //   console.log("id from worker.service.ts (Update):", id)
-  //   return this.http.patch(url, worker, httpOptions);
-  // }
- 
-}
+  }

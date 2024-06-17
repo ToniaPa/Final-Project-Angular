@@ -1,0 +1,37 @@
+@if(!client) {  
+  <div class="alert alert-danger text-center">
+    There aren't any details 
+  </div>
+} @else {
+  <table class="table table-bordered">
+    <caption class="caption-top fw-bold bg-dark-subtle text-success text-center">
+      Client Details
+    </caption>
+    <tr>
+      <td class="fw-semibold text-end">Brand Name</td>
+      <td class="ps-2">{{ client.brandName }}</td>
+    </tr>   
+    <tr>
+      <td class="fw-semibold text-end">Email</td>
+      <td class="ps-2">{{ client.email }}</td>
+    </tr>
+    <tr>
+      <td class="fw-semibold text-end">Afm</td>
+      <td class="ps-2">{{ client.afm }}</td>
+    </tr>    
+    <tr>
+      <td class="fw-semibold text-end">Phone Numbers</td>
+      @for (entry of client.phoneNumbers;  track entry) {     
+        <td class="ps-2">{{ entry.number }}<small>({{ entry.type }})</small></td>          
+      }    
+    </tr> 
+    <tr>
+        <td class="fw-semibold text-end align-content-start">Address</td>
+        <td class="ps-2"> 
+          {{ client.address.street }} {{ client.address.number }} <br> 
+          {{ client.address.city }} {{ client.address.country }} {{ client.address.zipCode }} 
+        </td>
+    </tr>        
+  </table>
+}
+
