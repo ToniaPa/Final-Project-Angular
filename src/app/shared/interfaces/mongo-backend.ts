@@ -50,6 +50,7 @@ export interface Worker {
 
 //*** Client ***//
 export interface Client {
+  // id: string;
   brandName: string;    
   email: string;
   afm: string;

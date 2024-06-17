@@ -22,10 +22,10 @@ export class MenuItemsComponent {
       text: 'Clients',
       routerLink: 'clients',
     },
-    {
-      text: 'Work Types',
-      routerLink: 'work-types',
-    },
+    // {
+    //   text: 'Work Types',
+    //   routerLink: 'work-types',
+    // },
     {
       text: 'Time Sheet',
       routerLink: 'time-sheet',

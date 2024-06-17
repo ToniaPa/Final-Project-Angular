@@ -23,10 +23,10 @@ export const routes: Routes = [
     path: 'clients',
     component: ClientsDashboardComponent,
   },
-  {
-    path: 'work-types',
-    component: WorkTypesDashboardComponent,
-  },
+  // {
+  //   path: 'work-types',
+  //   component: WorkTypesDashboardComponent,
+  // },
   {
     path: 'time-sheet',
     component: TimeSheetsDashboardComponent,
