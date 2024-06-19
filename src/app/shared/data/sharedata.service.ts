@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Client, Worker } from 'src/app/shared/interfaces/mongo-backend';
+import { Client, Timesheet, Worker } from 'src/app/shared/interfaces/mongo-backend';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,7 @@ export class SharedataService {
   }
   //end of worker-
 
+  //***
 
   //*** Client: ***//
   clientData: Client; //εδω βάζω τα data του client
@@ -33,6 +34,19 @@ export class SharedataService {
     // this.clientId = this.clientData.id;
   }
   //end of client-
+  
+  //***
+  
+  //*** Timesheet: ***//
+  timesheetData: Timesheet; //εδω βάζω τα data του client
+  // clientId: string ="";
+  
+  private dataTimesheetSubject = new Subject<Timesheet>();
+  timesheetData$ = this.dataTimesheetSubject.asObservable();
 
+  sendTimesheet(timesheetData: Timesheet) {
+    this.dataTimesheetSubject.next(timesheetData);   
+  }
+  //end of Timesheet-
 
 }

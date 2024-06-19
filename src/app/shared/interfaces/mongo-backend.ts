@@ -58,3 +58,28 @@ export interface Client {
   address: Address 
  }
 //*** end of Client ***//
+
+//*** Timesheet ***//
+
+export interface HourRecord{
+  hour: number;
+  minute: number;
+}
+
+export interface WorkerClientWorkHours {
+  workerGivenName: string;
+  workerSurName: string;   
+  workerAfm: string;
+  clientBrandName: string; 
+  clientAfm: string;     
+  typeOfWork: string; 
+  hourFrom: HourRecord;
+  hourTo: HourRecord; 
+  additionalInfo: string; 
+}
+
+export interface Timesheet {
+  dateOfWork: Date;
+  detailsOfWork: WorkerClientWorkHours[];
+}
+//*** end of Timesheet ***//

@@ -13,6 +13,7 @@ import { authGuard } from './shared/guards/auth.guard';
 import { ClientsOutputTableComponent } from './components/clients/clients-output-table/clients-output-table.component';
 import { ClientCreateComponent } from './components/clients/client-create/client-create.component';
 import { ClientUpdateComponent } from './components/clients/client-update/client-update.component';
+import { TimeSheetsCreateComponent } from './components/time-sheets/time-sheets-create/time-sheets-create.component';
 
 
 export const routes: Routes = [
@@ -30,10 +31,12 @@ export const routes: Routes = [
   // {
   //   path: 'work-types',
   //   component: WorkTypesDashboardComponent,
+  //   canActivate: [authGuard], 
   // },
   {
     path: 'time-sheet',
     component: TimeSheetsDashboardComponent,
+    canActivate: [authGuard], 
   },
   {
     path: 'user-login',
@@ -83,6 +86,26 @@ export const routes: Routes = [
     component: ClientUpdateComponent,
     // canActivate: [authGuard], 
   },
+  {
+    path: 'time-sheets-dashboard',
+    component: TimeSheetsDashboardComponent,
+    // canActivate: [authGuard],
+  },  
+  //{
+  //   path: 'time-sheets-dashboard/show-all-timesheets',
+  //   component: ,
+  //   // canActivate: [authGuard], 
+  // },
+  {
+    path: 'time-sheets-dashboard/create',
+    component: TimeSheetsCreateComponent,
+    // canActivate: [authGuard], 
+  },
+  // {
+  //   path: 'time-sheets-dashboard/update',
+  //   component: ,
+  //   // canActivate: [authGuard], 
+  // },
 
 
 ];
