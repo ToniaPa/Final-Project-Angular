@@ -14,18 +14,45 @@
               />            
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
+              @if (form.get("dateOfWork").invalid && form.get("dateOfWork").touched) {
+                <mat-error>Date of Work is required</mat-error>
+              }
+            </mat-form-field> <!-- Date of Work end -->            
+            <mat-form-field appearance="outline">
+              <mat-label>Select a Worker</mat-label>
+              <mat-select 
+                [(value)]="selectedWorker"
+                (selectionChange)="onSelectionWorkerChange($event)"
+                required="True"
+              >
+                <mat-option *ngFor="let worker of workers" [value]="worker">
+                  {{ worker.givenName }} {{ worker.surName }} (AFM: {{ worker.afm }})                  
+                </mat-option>
+              </mat-select> 
             </mat-form-field>
-            <!-- Date of Work end -->
-          
+            <mat-form-field appearance="outline">
+              <mat-label>Select a Client</mat-label>
+              <mat-select 
+                [(value)]="selectedClient"
+                (selectionChange)="onSelectionClientChange($event)"
+                required="True"
+              >
+                <mat-option *ngFor="let client of clients" [value]="client">
+                  {{ client.brandName }} (AFM: {{ client.afm }})                  
+                </mat-option>
+              </mat-select> 
+            </mat-form-field>
+
+<!--           
             <mat-label class="col-1"><strong>Worker:</strong></mat-label>        
             <div class="d-flex flex-row gap-1">  
               <mat-form-field appearance="outline" class="col-4">
                 <mat-label>Last Name</mat-label>
                 <input matInput type="text" formControlName="workerSurName" 
               />
-                <!-- @if (form.get("workerSurName").invalid && form.get("workerSurName").touched) {
+                @if (form.get("workerSurName").invalid && form.get("workerSurName").touched) {
                   <mat-error>Last Name is required</mat-error>
-                } -->
+                }
               </mat-form-field>
               <mat-form-field appearance="outline" class="col-2">
                 <mat-label>First Name</mat-label>
@@ -36,41 +63,23 @@
               </mat-form-field>
               <mat-form-field appearance="outline" class="col-2" >
                 <mat-label>AFM</mat-label>
-                <input matInput type="text" formControlName="workerAfm" />
-                <!-- @if (form.get("workerAfm").hasError("duplicateAFM")) {
-                  <mat-error>AFM is already registered</mat-error>
-                } @else {
-                  @if (form.get("workerAfm").invalid && form.get("afm").touched) {
-                    <mat-error
-                      >AFM must have exactly 9 digits</mat-error
-                    >
-                  }
-                } -->
+                <input matInput type="text" formControlName="workerAfm" />            
               </mat-form-field>
-            </div>
-            <mat-label class="col-1"><strong>Client:</strong></mat-label>
+            </div> -->
+            <!-- <mat-label class="col-1"><strong>Client:</strong></mat-label>
             <div class="d-flex flex-row gap-1">            
               <mat-form-field appearance="outline" class="col-6">
                 <mat-label>Brand Name</mat-label>
                 <input matInput type="text" formControlName="clientBrandName"/>
-                <!-- @if (form.get("clientBrandName").invalid && form.get("clientBrandName").touched) {
+                @if (form.get("clientBrandName").invalid && form.get("clientBrandName").touched) {
                   <mat-error>Brand Name is required</mat-error>
-                } -->
+                }
               </mat-form-field>   
               <mat-form-field appearance="outline" class="col-2">
                 <mat-label>AFM</mat-label>
-                <input matInput type="text" formControlName="clientAfm" />
-                <!-- @if (form.get("clientAfm").hasError("duplicateAFM")) {
-                  <mat-error>AFM is already registered</mat-error>
-                } @else {
-                  @if (form.get("clientAfm").invalid && form.get("clientAfm").touched) {
-                    <mat-error
-                      >AFM must have exactly 9 digits</mat-error
-                    >
-                  }
-                } -->
+                <input matInput type="text" formControlName="clientAfm" />             
               </mat-form-field>
-            </div>
+            </div> -->
             <div class="d-flex flex-row gap-1">
               <mat-form-field appearance="outline">
                 <mat-label>Type of Work</mat-label>
@@ -81,28 +90,29 @@
                   <mat-option value="Accounting">Αccountant</mat-option>
                   <mat-option value="Restaurant">Restaurant employee</mat-option>
                 </mat-select>
-                <!-- @if (phone.get("type").invalid && phone.get("type").touched) {
+                @if (form.get("typeOfWork").invalid && form.get("typeOfWork").touched) {
                   <mat-error class="text-wrap">
-                    Please select a Phone Type
+                    Please select a Type of Work
                   </mat-error>
-                } -->
+                }
               </mat-form-field>
-
               <mat-form-field appearance="outline" style="width: 150px;">
                 <mat-label>Hour From</mat-label>
-
                 <input matInput type="time" formControlName="hourFrom" class="mat-mdc-input-element"/>
-
                 <!-- <input matInput [ngxTimepicker]="picker" readonly>
-                <ngx-material-timepicker #picker></ngx-material-timepicker> -->
+                <ngx-material-timepicker #picker></ngx-material-timepicker> ΔΕΝ ΔΟΥΛΕΥΕΙ -> version incompatibility-->
+                @if (form.get("hourFrom").invalid && form.get("hourFrom").touched) {
+                  <mat-error>Hour From is required</mat-error>
+                }
               </mat-form-field>
               <mat-form-field appearance="outline" style="width: 150px;">
                 <mat-label>Hour To</mat-label>
-
                 <input matInput type="time" formControlName="hourTo" class="mat-mdc-input-element"/>
-
                 <!-- <input matInput [ngxTimepicker]="picker" readonly>
-                <ngx-material-timepicker #picker></ngx-material-timepicker> -->
+                <ngx-material-timepicker #picker></ngx-material-timepicker> ΔΕΝ ΔΟΥΛΕΥΕΙ -> version incompatibility -->
+                @if (form.get("hourTo").invalid && form.get("hourTo").touched) {
+                  <mat-error>Hour To is required</mat-error>
+                }
               </mat-form-field>
             </div>
 
@@ -127,7 +137,7 @@
           </div>
           <button   
             mat-button
-            (click)="addAnotherClient()">
+            (click)="addAnotherTimesheet()">
             Add Another Client
           </button>
         } @else {
@@ -137,7 +147,7 @@
           </div>
           <button   
             mat-button
-            (click)="addAgainClient()">
+            (click)="addAgainTimesheet()">
             Try Adding Again
           </button>
         }

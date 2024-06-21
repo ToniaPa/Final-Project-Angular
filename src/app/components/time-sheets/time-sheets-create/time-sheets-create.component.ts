@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -20,6 +20,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule} from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { selectedClient, selectedWorker } from 'src/app/shared/interfaces/timesheet';
+import { Client, Worker } from 'src/app/shared/interfaces/mongo-backend';
 
 @Component({
   selector: 'app-time-sheets-create',
@@ -35,11 +37,12 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMaterialTimepickerModule,
+
   ],
   templateUrl: './time-sheets-create.component.html',
   styleUrl: './time-sheets-create.component.css' 
 })
-export class TimeSheetsCreateComponent {
+export class TimeSheetsCreateComponent implements OnInit{
 
   router = inject(Router);
   clientService = inject(ClientService);
@@ -51,6 +54,67 @@ export class TimeSheetsCreateComponent {
   }
 
   public date_Today = new Date(); //= current day
+  // public time_From = new Time
+
+  workers: Worker[];    
+  selectedWorker: selectedWorker | null = null;
+  clients: Client[];
+  selectedClient: selectedClient | null = null;
+
+  ngOnInit(): void {    
+    this.get_all_workers();   
+    this.get_all_clients();
+  }
+
+  get_all_workers() {
+    this.workerService.getAllWorkers().subscribe({
+      next: (response) => {
+        console.log("time-sheet-create.ts (get_all_workers, ngOnInit) success");
+        this.workers = response;        
+        console.log("time-sheet-create.ts (get_all_workers, ngOnInit) workers =", this.workers)   
+      },
+      error: (response) => {
+        const message = response.error.msg;
+        console.log("time-sheet-create.ts (get_all_workers, ngOnInit) error: ", message);        
+      },
+    });
+
+  }
+
+  get_all_clients() {
+    this.clientService.getAllClients().subscribe({
+      next: (response) => {
+        console.log("ime-sheet-create.ts (get_all_clients, ngOnInit) success");
+        this.clients = response;        
+        console.log("clients =", this.clients)      
+      },
+      error: (response) => {
+        const message = response.error.msg;
+        console.log("ime-sheet-create.ts (get_all_clients, ngOnInit)  error: ", message);     
+      },
+    });
+  }
+
+  onSelectionWorkerChange(event: any) {
+    console.log('Selection Worker changed:', event.value);
+    this.selectedWorker = event.value;
+    console.log(this.selectedWorker)   
+    this.form.patchValue({              
+      workerGivenName: this.selectedWorker.givenName,
+      workerSurName: this.selectedWorker.surName,      
+      workerAfm: this.selectedWorker.afm,      
+    })
+  }
+
+  onSelectionClientChange(event: any) {
+    console.log('Selection Client changed:', event.value);
+    this.selectedClient = event.value;
+    console.log(this.selectedClient)   
+    this.form.patchValue({              
+      clientBrandName: this.selectedClient.brandName,      
+      clientAfm: this.selectedClient.afm,      
+    })
+  }
 
   //*******//
 
@@ -87,8 +151,13 @@ registrationStatus: { success: boolean; message: string } = {
 
 submit(value: any){}
 
-addAgainClient(){}
+addAgainTimesheet(){
+  this.registrationStatus = { success: false, message: 'Not attempted yet' };
+}
 
-addAnotherClient(){}
+addAnotherTimesheet(){
+  this.form.reset(); 
+  this.registrationStatus = { success: false, message: 'Not attempted yet' };
+}
 
 }
