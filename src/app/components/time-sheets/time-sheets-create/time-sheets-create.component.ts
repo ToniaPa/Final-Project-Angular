@@ -20,8 +20,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule} from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { selectedClient, selectedWorker } from 'src/app/shared/interfaces/timesheet';
+import { WorkType, selectedClient, selectedWorker } from 'src/app/shared/interfaces/timesheet';
 import { Client, Worker } from 'src/app/shared/interfaces/mongo-backend';
+import { sortBy } from 'lodash';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-time-sheets-create',
@@ -37,7 +39,7 @@ import { Client, Worker } from 'src/app/shared/interfaces/mongo-backend';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMaterialTimepickerModule,
-
+    MatSnackBarModule,
   ],
   templateUrl: './time-sheets-create.component.html',
   styleUrl: './time-sheets-create.component.css' 
@@ -48,6 +50,7 @@ export class TimeSheetsCreateComponent implements OnInit{
   clientService = inject(ClientService);
   workerService = inject(WorkerService);
   timesheetService = inject(TimesheetService)
+  snackBar = inject(MatSnackBar)
 
   constructor(private dateAdapter: DateAdapter<Date>) {
     this.dateAdapter.setLocale('el-GR');        
@@ -61,9 +64,18 @@ export class TimeSheetsCreateComponent implements OnInit{
   clients: Client[];
   selectedClient: selectedClient | null = null;
 
+  workTypes: WorkType[] = [
+    { value: 'Cleaning', viewValue: 'Cleaning Services' },
+    { value: 'Security', viewValue: 'Security Services' },
+    { value: 'Sales', viewValue: 'Sales employee' },
+    { value: 'Accounting', viewValue: 'Αccountant' },
+    { value: 'Restaurant', viewValue: 'Restaurant employee' }
+  ];
+
   ngOnInit(): void {    
-    this.get_all_workers();   
-    this.get_all_clients();
+    this.get_all_workers();      
+    this.get_all_clients();    
+    this.workTypes.sort((a, b) => a.viewValue.localeCompare(b.viewValue));
   }
 
   get_all_workers() {
@@ -72,6 +84,7 @@ export class TimeSheetsCreateComponent implements OnInit{
         console.log("time-sheet-create.ts (get_all_workers, ngOnInit) success");
         this.workers = response;        
         console.log("time-sheet-create.ts (get_all_workers, ngOnInit) workers =", this.workers)   
+        this.workers.sort((a, b) => a.surName.localeCompare(b.surName));
       },
       error: (response) => {
         const message = response.error.msg;
@@ -87,6 +100,7 @@ export class TimeSheetsCreateComponent implements OnInit{
         console.log("ime-sheet-create.ts (get_all_clients, ngOnInit) success");
         this.clients = response;        
         console.log("clients =", this.clients)      
+        this.clients.sort((a, b) => a.brandName.localeCompare(b.brandName));
       },
       error: (response) => {
         const message = response.error.msg;
@@ -136,28 +150,79 @@ export class TimeSheetsCreateComponent implements OnInit{
                             ]
                         ),
     typeOfWork: new FormControl('', Validators.required),   
-    hourFrom: new FormControl('', Validators.required),    
-    hourTo: new FormControl('', Validators.required),
+    hourFrom: new FormControl('08:00', Validators.required),    
+    hourTo: new FormControl('16:00', Validators.required),
     additionalInfo: new FormControl(''),   
   });
 
   
 // *******//
 
-registrationStatus: { success: boolean; message: string } = {
-  success: false, //initial value
-  message: 'Not attempted yet', //initial value
-};
+  registrationStatus: { success: boolean; message: string } = {
+    success: false, //initial value
+    message: 'Not attempted yet', //initial value
+  };
 
-submit(value: any){}
+  comparisonResult: string;
+  comparisonHours: number;
 
-addAgainTimesheet(){
-  this.registrationStatus = { success: false, message: 'Not attempted yet' };
-}
+  compareHours(): void {
+    const hourFrom = this.form.get('hourFrom')?.value;
+    const hourTo = this.form.get('hourTo')?.value;
 
-addAnotherTimesheet(){
-  this.form.reset(); 
-  this.registrationStatus = { success: false, message: 'Not attempted yet' };
-}
+    if (hourFrom && hourTo) {
+      const [hoursFrom, minutesFrom] = hourFrom.split(':').map(Number);
+      const [hoursTo, minutesTo] = hourTo.split(':').map(Number);
 
+      const dateFrom = new Date();
+      dateFrom.setHours(hoursFrom, minutesFrom, 0, 0);
+
+      const dateTo = new Date();
+      dateTo.setHours(hoursTo, minutesTo, 0, 0);
+
+      if (dateFrom > dateTo) {
+        this.comparisonResult = 'Hour From is later than Hour To';
+        this.comparisonHours = -1;
+      } else if (dateFrom < dateTo) {
+        this.comparisonResult = 'Hour From is earlier than Hour To';
+        this.comparisonHours = 1; //ok
+      } else {
+        this.comparisonResult = 'Hour From is equal to Hour To';
+        this.comparisonHours = 0;
+      }
+    } 
+  }
+
+
+  submit(value: any){
+    this.comparisonResult = '';
+    this.comparisonHours = null;
+    this.compareHours();
+    if (this.comparisonHours !== 1) {
+      this.snackBar.open( this.comparisonResult + ", Please correct Hours", 'Close', {
+        duration: 3000, // Duration in milliseconds (3 seconds)  
+        // horizontalPosition: 'right',
+        verticalPosition: 'bottom',        
+        panelClass: 'custom-snackbar"',
+      })
+    } else {
+
+    }
+  }
+
+  addAgainTimesheet(){
+    this.registrationStatus = { success: false, message: 'Not attempted yet' };
+  }
+
+  addAnotherTimesheet(){
+    this.form.reset(); 
+    this.registrationStatus = { success: false, message: 'Not attempted yet' };
+  }
+
+  resetForm(){
+    this.form.reset(); 
+    this.selectedWorker = null;
+    this.selectedClient = null;
+    this.registrationStatus = { success: false, message: 'Not attempted yet' };
+  }
 }

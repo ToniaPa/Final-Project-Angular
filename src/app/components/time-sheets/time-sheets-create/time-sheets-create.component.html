@@ -24,9 +24,10 @@
                 [(value)]="selectedWorker"
                 (selectionChange)="onSelectionWorkerChange($event)"
                 required="True"
+                name="selectWorker"
               >
                 <mat-option *ngFor="let worker of workers" [value]="worker">
-                  {{ worker.givenName }} {{ worker.surName }} (AFM: {{ worker.afm }})                  
+                  {{ worker.surName }} {{ worker.givenName }} (AFM: {{ worker.afm }})                  
                 </mat-option>
               </mat-select> 
             </mat-form-field>
@@ -36,6 +37,7 @@
                 [(value)]="selectedClient"
                 (selectionChange)="onSelectionClientChange($event)"
                 required="True"
+                name="selectClient"
               >
                 <mat-option *ngFor="let client of clients" [value]="client">
                   {{ client.brandName }} (AFM: {{ client.afm }})                  
@@ -84,12 +86,17 @@
               <mat-form-field appearance="outline">
                 <mat-label>Type of Work</mat-label>
                 <mat-select formControlName="typeOfWork">
+                  <mat-option *ngFor="let workType of workTypes" [value]="workType.value">
+                    {{ workType.viewValue }}
+                  </mat-option>
+                </mat-select>
+                <!-- <mat-select formControlName="typeOfWork">
                   <mat-option value="Cleaning">Cleaning Services</mat-option>
                   <mat-option value="Security">Security Services</mat-option>
                   <mat-option value="Sales">Sales employee</mat-option>
                   <mat-option value="Accounting">Αccountant</mat-option>
                   <mat-option value="Restaurant">Restaurant employee</mat-option>
-                </mat-select>
+                </mat-select> -->
                 @if (form.get("typeOfWork").invalid && form.get("typeOfWork").touched) {
                   <mat-error class="text-wrap">
                     Please select a Type of Work
@@ -123,7 +130,7 @@
               >
                 Submit
               </button>
-              <button mat-button style ="color: gray; font-style: italic;" (click)="form.reset()">
+              <button mat-button style ="color: gray; font-style: italic;" (click)="resetForm()">
                 Reset
               </button>
             </div>
