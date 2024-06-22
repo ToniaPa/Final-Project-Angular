@@ -1,0 +1,71 @@
+<div class="container"> 
+  <div class="d-flex flex-row">
+    <input 
+      class="input-sm" 
+      type="search" 
+      placeholder="Search Timesheet(s)" 
+      aria-label="Search"     
+      [(ngModel)]="searchInput"
+      class="input-sm"
+    >
+    <button                        
+        class="btn btn-outline-secondary btn-sm ms-1"  
+        aria-label="Search Timesheets"             
+        (click)="filterTimesheets()"
+        >Search
+          <!-- <mat-icon matTooltip="Search Worker">filter</mat-icon>  -->
+    </button>
+    <button           
+        class="btn btn-outline-secondary btn-sm ms-1" 
+        aria-label="Clear"             
+        (click)="clearFilterTimesheets()"
+      >Clear
+        <!-- <mat-icon matTooltip="Clear">clear</mat-icon>  -->
+    </button>
+  </div>
+  <div class="table-responsive mt-1">  
+    <table class="table table-hover table-bordered border-white text-wrap">
+        <!-- <title>Workers:</title> -->
+        <thead>
+          <tr class="align-middle text-left">
+            <th role="button" (click)="sortData('dateOfWork')">Date Of Work {{ sortSign("dateOfWork") }}</th>  
+            <th role="button" (click)="sortData('workerGivenName')">First Name {{ sortSign("workerGivenName") }}</th>
+            <th role="button" (click)="sortData('workerSurName')">Last Name {{ sortSign("workerSurName") }}</th>  
+            <th role="button" (click)="sortData('clientBrandName')">Client {{ sortSign("clientBrandName") }}</th>  
+            <th role="button" (click)="sortData('typeOfWork')">Type of Work {{ sortSign("typeOfWork") }}</th>  
+            <th role="button" (click)="sortData('hourFrom')">Hour From {{ sortSign("hourFrom") }}</th>  
+            <th role="button" (click)="sortData('hourTo')">Hour To {{ sortSign("hourTo") }}</th>    
+          </tr>
+        </thead>
+        <tbody>
+          <!-- @for (row of workers; track row) {    -->
+          @for (row of filteredTimesheets; track row) { 
+            <tr class="align-middle">
+              <td>{{ row.dateOfWork }}</td>
+              <td>{{ row.workerGivenName }}</td>
+              <td>{{ row.workerSurName }}</td>
+              <td>{{ row.clientBrandName }}</td>
+              <td>{{ row.typeOfWork }}</td>
+              <td>{{ row.hourFrom }}</td>
+              <td>{{ row.hourTo }}</td>  
+              <td>          
+                <button    
+                  matTooltip="Delete Timesheet"
+                  mat-icon-button 
+                  aria-label="Delete Timesheet"             
+                  (click)="onTimesheetDeleteClicked(row)"
+                >
+                  <mat-icon matTooltip="Delete Timesheet">delete</mat-icon> 
+                </button>
+              </td>             
+            </tr>
+          }
+        </tbody>
+    </table>
+  </div>
+</div> 
+
+
+
+
+

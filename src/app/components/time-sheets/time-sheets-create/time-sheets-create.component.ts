@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule, getLocaleDateFormat } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, getLocaleDateFormat } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -207,15 +207,12 @@ export class TimeSheetsCreateComponent implements OnInit{
         panelClass: 'custom-snackbar"',
       })
     } else {
-      const timesheet = this.form.value as Timesheet      
-      // const dateOfWorkStr = timesheet.dateOfWork.slice(0, 10);
-      // timesheet.dateOfWork = dateOfWorkStr;
+      const timesheet = this.form.value as Timesheet    
       console.log("timesheet = ", timesheet)      
       this.timesheetService.createTimesheet(timesheet).subscribe({
         next: (response) => {
           // this.form.reset();
           this.registrationStatus = { success: true, message: response.msg };
-          // alert("Client created")
         },
         error: (response) => {
           const message = response.error.msg;

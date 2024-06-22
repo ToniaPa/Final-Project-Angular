@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { Timesheet } from '../interfaces/mongo-backend';
+import { map } from 'rxjs';
 
 const API_URL = `${environment.apiURL}/timesheets`;
 
@@ -16,8 +17,19 @@ export class TimesheetService {
     return this.http.post<{ msg: string }>(`${API_URL}/create`, timesheet);
   }
 
-  getAllTimesheetsByDate(dateOfWork: Date) {
-    return this.http.get<Timesheet[]>(`${API_URL}//date/${dateOfWork}`);
+  getAllTimesheets() {
+    // return this.http.get<Timesheet[]>(`${API_URL}/`);
+    
+    return this.http.get<Timesheet[]>(`${API_URL}/`).pipe(
+      // map((res:any[])=>{
+      //   res.forEach(x=>x.dateOfWork=`${new Date(x.dateOfWork).getDay()} / ${new Date(x.dateOfWork).getMonth()} / ${new Date(x.dateOfWork).getFullYear()}`)
+      //   return res;
+      // })
+      map((res:any[])=>{
+        res.forEach(x=>x.dateOfWork=new Date(x.dateOfWork).toDateString().substring(0, 15).toLocaleString())      
+        return res;
+      })
+    )
   }
 
   deleteTimesheetById(id: string) { //??? date ή _id ???
@@ -31,15 +43,5 @@ export class TimesheetService {
     return this.http.delete(url, httpOptions);
   }
 
-  updateTimesheetByid(id: string, timesheet: Timesheet) {
-    const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json'
-          })
-        };
-    const url = `${API_URL}/id/${id}`;
-    console.log("url from client.service.ts (Update):", url)
-    return this.http.patch(url, timesheet, httpOptions);
-  }
-
 }
+ 

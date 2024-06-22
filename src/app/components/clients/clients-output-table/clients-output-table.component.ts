@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ClientOutputDetailsComponent } from '../client-output-details/client-output-details.component';
 import { ConfirmYesnoDialogComponent } from '../../confirm-yesno-dialog/confirm-yesno-dialog.component';
 import { sortBy } from 'lodash';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-clients-output-table',
@@ -27,6 +28,7 @@ import { sortBy } from 'lodash';
     RouterLink,   
     ClientUpdateComponent,
     FormsModule ,
+    MatSnackBarModule,
   ],
   templateUrl: './clients-output-table.component.html',
   styleUrl: './clients-output-table.component.css'
@@ -45,6 +47,7 @@ export class ClientsOutputTableComponent {
     public matDialog: MatDialog,    
   ) {};
  
+  snackBar = inject(MatSnackBar)
 
   get_all_clients() {
     this.clientService.getAllClients().subscribe({
@@ -73,6 +76,9 @@ export class ClientsOutputTableComponent {
       next: (response) => {        
         console.log(`Client: ${client.brandName}, with Afm: ${client.afm} was deleted successfully`);  
         console.log(response);
+        this.snackBar.open('Client deleted successfully!', 'Close', {
+          duration: 3000, // Duration in milliseconds (3 seconds)  
+        });
         this.get_all_clients();
       },
       error: (response) => {

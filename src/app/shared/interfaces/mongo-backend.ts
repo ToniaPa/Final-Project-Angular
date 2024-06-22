@@ -78,6 +78,22 @@ export interface Timesheet {
   hourTo: string;   
 }
 
+export interface delTimesheet {
+  _id: string;
+  dateOfWork: Date;
+  // dateOfWork: string;
+  workerGivenName: string;
+  workerSurName: string;   
+  workerAfm: string;
+  clientBrandName: string; 
+  clientAfm: string;     
+  typeOfWork: string; 
+  // hourFrom: Time;
+  // hourTo: Time; 
+  hourFrom: string;
+  hourTo: string;   
+}
+
 // export interface HourRecord{
 //   hour: number;
 //   minute: number;

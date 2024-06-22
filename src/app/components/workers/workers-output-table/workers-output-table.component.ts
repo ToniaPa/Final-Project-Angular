@@ -17,6 +17,7 @@ import { SharedataService } from 'src/app/shared/data/sharedata.service';
 import { Subscription } from 'rxjs';
 import { WorkerUpdateComponent } from '../worker-update/worker-update.component';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-workers-output-table',
@@ -30,6 +31,7 @@ import { FormsModule } from '@angular/forms';
     RouterLink,   
     WorkerUpdateComponent,
     FormsModule ,
+    MatSnackBarModule,
   ],
   templateUrl: './workers-output-table.component.html',
   styleUrl: './workers-output-table.component.css'
@@ -48,6 +50,8 @@ export class WorkersOutputTableComponent implements OnInit {
     public dialog: Dialog,
     public matDialog: MatDialog,    
   ) {};
+
+  snackBar = inject(MatSnackBar)
 
   // @Output() workerEditClicked = new EventEmitter<Worker>();
 
@@ -78,6 +82,9 @@ export class WorkersOutputTableComponent implements OnInit {
       next: (response) => {        
         console.log(`Worker: ${worker.givenName} ${worker.surName}, with Afm: ${worker.afm} was deleted successfully`);  
         console.log(response);
+        this.snackBar.open('Worker deleted successfully!', 'Close', {
+          duration: 3000, // Duration in milliseconds (3 seconds)  
+        });
         this.get_all_workers();
       },
       error: (response) => {

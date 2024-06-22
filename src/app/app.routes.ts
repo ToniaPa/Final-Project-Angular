@@ -14,6 +14,7 @@ import { ClientsOutputTableComponent } from './components/clients/clients-output
 import { ClientCreateComponent } from './components/clients/client-create/client-create.component';
 import { ClientUpdateComponent } from './components/clients/client-update/client-update.component';
 import { TimeSheetsCreateComponent } from './components/time-sheets/time-sheets-create/time-sheets-create.component';
+import { TimeSheetsOutputTableComponent } from './components/time-sheets/time-sheets-output-table/time-sheets-output-table.component';
 
 
 export const routes: Routes = [
@@ -91,11 +92,11 @@ export const routes: Routes = [
     component: TimeSheetsDashboardComponent,
     // canActivate: [authGuard],
   },  
-  //{
-  //   path: 'time-sheets-dashboard/show-all-timesheets',
-  //   component: ,
-  //   // canActivate: [authGuard], 
-  // },
+  {
+    path: 'time-sheets-dashboard/show-all-timesheets',
+    component: TimeSheetsOutputTableComponent,
+    // canActivate: [authGuard], 
+  },
   {
     path: 'time-sheets-dashboard/create',
     component: TimeSheetsCreateComponent,
