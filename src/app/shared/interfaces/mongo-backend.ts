@@ -1,5 +1,7 @@
 // All interfaces for MongoDB backend
 
+import { Time } from "@angular/common";
+
 // *** User Login***//
 export interface User {
   givenName: string;
@@ -61,25 +63,40 @@ export interface Client {
 
 //*** Timesheet ***//
 
-export interface HourRecord{
-  hour: number;
-  minute: number;
-}
-
-export interface WorkerClientWorkHours {
+export interface Timesheet {
+  dateOfWork: Date;
+  // dateOfWork: string;
   workerGivenName: string;
   workerSurName: string;   
   workerAfm: string;
   clientBrandName: string; 
   clientAfm: string;     
   typeOfWork: string; 
-  hourFrom: HourRecord;
-  hourTo: HourRecord; 
-  additionalInfo: string; 
+  // hourFrom: Time;
+  // hourTo: Time; 
+  hourFrom: string;
+  hourTo: string;   
 }
 
-export interface Timesheet {
-  dateOfWork: Date;
-  detailsOfWork: WorkerClientWorkHours[];
-}
+// export interface HourRecord{
+//   hour: number;
+//   minute: number;
+// }
+
+// export interface WorkerClientWorkHours {
+//   workerGivenName: string;
+//   workerSurName: string;   
+//   workerAfm: string;
+//   clientBrandName: string; 
+//   clientAfm: string;     
+//   typeOfWork: string; 
+//   hourFrom: HourRecord;
+//   hourTo: HourRecord; 
+//   additionalInfo: string; 
+// }
+
+// export interface Timesheet {
+//   dateOfWork: Date;
+//   detailsOfWork: WorkerClientWorkHours[];
+// }
 //*** end of Timesheet ***//

@@ -21,7 +21,7 @@ import { MatNativeDateModule} from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { WorkType, selectedClient, selectedWorker } from 'src/app/shared/interfaces/timesheet';
-import { Client, Worker } from 'src/app/shared/interfaces/mongo-backend';
+import { Client, Timesheet, Worker } from 'src/app/shared/interfaces/mongo-backend';
 import { sortBy } from 'lodash';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -56,8 +56,9 @@ export class TimeSheetsCreateComponent implements OnInit{
     this.dateAdapter.setLocale('el-GR');        
   }
 
-  public date_Today = new Date(); //= current day
-  // public time_From = new Time
+  public date_Today = new Date(); //= current day  
+  public todayStr = this.date_Today.toISOString();
+  
 
   workers: Worker[];    
   selectedWorker: selectedWorker | null = null;
@@ -76,6 +77,7 @@ export class TimeSheetsCreateComponent implements OnInit{
     this.get_all_workers();      
     this.get_all_clients();    
     this.workTypes.sort((a, b) => a.viewValue.localeCompare(b.viewValue));
+    console.log("todayStr = ", this.todayStr)
   }
 
   get_all_workers() {
@@ -110,9 +112,9 @@ export class TimeSheetsCreateComponent implements OnInit{
   }
 
   onSelectionWorkerChange(event: any) {
-    console.log('Selection Worker changed:', event.value);
+    // console.log('Selection Worker changed:', event.value);
     this.selectedWorker = event.value;
-    console.log(this.selectedWorker)   
+    // console.log(this.selectedWorker)   
     this.form.patchValue({              
       workerGivenName: this.selectedWorker.givenName,
       workerSurName: this.selectedWorker.surName,      
@@ -121,9 +123,9 @@ export class TimeSheetsCreateComponent implements OnInit{
   }
 
   onSelectionClientChange(event: any) {
-    console.log('Selection Client changed:', event.value);
+    // console.log('Selection Client changed:', event.value);
     this.selectedClient = event.value;
-    console.log(this.selectedClient)   
+    // console.log(this.selectedClient)   
     this.form.patchValue({              
       clientBrandName: this.selectedClient.brandName,      
       clientAfm: this.selectedClient.afm,      
@@ -133,7 +135,7 @@ export class TimeSheetsCreateComponent implements OnInit{
   //*******//
 
   form = new FormGroup({
-    dateOfWork: new FormControl(new Date(), Validators.required),
+    dateOfWork: new FormControl(this.date_Today, Validators.required),
     workerGivenName: new FormControl('', Validators.required),
     workerSurName: new FormControl('', Validators.required),   
     workerAfm: new FormControl('', [Validators.required, 
@@ -151,8 +153,7 @@ export class TimeSheetsCreateComponent implements OnInit{
                         ),
     typeOfWork: new FormControl('', Validators.required),   
     hourFrom: new FormControl('08:00', Validators.required),    
-    hourTo: new FormControl('16:00', Validators.required),
-    additionalInfo: new FormControl(''),   
+    hourTo: new FormControl('16:00', Validators.required),     
   });
 
   
@@ -167,8 +168,8 @@ export class TimeSheetsCreateComponent implements OnInit{
   comparisonHours: number;
 
   compareHours(): void {
-    const hourFrom = this.form.get('hourFrom')?.value;
-    const hourTo = this.form.get('hourTo')?.value;
+    const hourFrom = this.form.get('hourFrom').value;
+    const hourTo = this.form.get('hourTo').value;
 
     if (hourFrom && hourTo) {
       const [hoursFrom, minutesFrom] = hourFrom.split(':').map(Number);
@@ -206,6 +207,22 @@ export class TimeSheetsCreateComponent implements OnInit{
         panelClass: 'custom-snackbar"',
       })
     } else {
+      const timesheet = this.form.value as Timesheet      
+      // const dateOfWorkStr = timesheet.dateOfWork.slice(0, 10);
+      // timesheet.dateOfWork = dateOfWorkStr;
+      console.log("timesheet = ", timesheet)      
+      this.timesheetService.createTimesheet(timesheet).subscribe({
+        next: (response) => {
+          // this.form.reset();
+          this.registrationStatus = { success: true, message: response.msg };
+          // alert("Client created")
+        },
+        error: (response) => {
+          const message = response.error.msg;
+          console.error(`There was an error in adding a Timesheet: , ${message}, error code: ${message.code}`);
+          this.registrationStatus = { success: false, message }; 
+        }
+      })       
 
     }
   }
@@ -216,6 +233,13 @@ export class TimeSheetsCreateComponent implements OnInit{
 
   addAnotherTimesheet(){
     this.form.reset(); 
+    this.selectedWorker = null;
+    this.selectedClient = null;
+    this.form.patchValue({      
+      dateOfWork: this.date_Today,        
+      hourFrom: '08:00',
+      hourTo: '16:00',        
+    })
     this.registrationStatus = { success: false, message: 'Not attempted yet' };
   }
 
@@ -223,6 +247,11 @@ export class TimeSheetsCreateComponent implements OnInit{
     this.form.reset(); 
     this.selectedWorker = null;
     this.selectedClient = null;
+    this.form.patchValue({      
+      dateOfWork: this.date_Today,        
+      hourFrom: '08:00',
+      hourTo: '16:00',        
+    })
     this.registrationStatus = { success: false, message: 'Not attempted yet' };
   }
 }
